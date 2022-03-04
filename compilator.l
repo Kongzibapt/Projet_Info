@@ -1,12 +1,15 @@
+%{
+#include "y.tab.h"
+%}
+
 D [0-9]
 N [a-zA-Z]([a-zA-Z0-9_])*
 
 %%
 
-"main"                   return tMAIN;
+main                     return tMAIN;
 "{"                      return tOB;
 "}"                      return tCB;
-{N}                      return {yylval.var = yytext[0]; return tID;}
 const                    return tCONST;
 int                      return tINT;
 "+"                      return tADD;
@@ -16,23 +19,25 @@ int                      return tINT;
 "="                      return tEQ;
 "("                      return tOP;
 ")"                      return tCP;
-" "                      return tSPACE;
-\t                       return tTAB;
+">"                      return tSUP;
+"<"                      return tINF;
+"!"                      return tNOT;
+"&&"                     return tAND;
+"||"                     return tOR;
+[ \t\n]+                      ;                   
 ,                        return tCOMMA;
-\n                       return tENDL;
 ;                        return tSEMI;
 printf                   return tPRINT;
+if                       return tIF;
+while                    return tWHILE;
+else                     return tELSE;
 {D}+                     {yylval.nb = atoi(yytext); return tINTVAL;}
-.                        return {return tERROR;};
+{N}                      {yylval.var = yytext[0]; return tID;}
+.                        return tERROR;
 
 %%
 
 int yywrap()
 {
-return 1 ;
-}
-int main ()
-{
-yylex() ;
 return 1 ;
 }
