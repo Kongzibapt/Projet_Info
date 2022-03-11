@@ -886,7 +886,7 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 35 "compilator.l"
-{yylval.var = yytext[0]; return tID;}
+{yylval.var = strdup(yytext); return tID;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP

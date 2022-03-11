@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'main.o', needed by 'compilator'.  Stop.
- 
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'main.o', needed by 'compilator'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Mar  4 14:33:59 2022
+# Make data base, printed on Fri Mar 11 16:19:05 2022
 
 # Variables
 
@@ -25,8 +23,9 @@ OPAM_SWITCH_PREFIX = /mnt/commetud/GEI/OCaml/.opam/4.08.1
 # environment
 OCAML_TOPLEVEL_PATH = /mnt/commetud/GEI/OCaml/.opam/4.08.1/lib/toplevel
 # makefile (from 'Makefile', line 8)
-OBJ = y.tab.o lex.yy.o main.o
+OBJ = y.tab.o lex.yy.o ts.o comp.o
 # environment
+ 
 XDG_SESSION_CLASS = user
 # environment
 XDG_SESSION_TYPE = x11
@@ -48,8 +47,6 @@ CURDIR := /home/bamarty/Bureau/4A/Projet_Info
 SHELL = /bin/sh
 # makefile (from 'Makefile', line 3)
 BIN = compilator
-# environment
-GDM_LANG = fr_FR
 # environment
 VSCODE_NLS_CONFIG = {"locale":"fr","availableLanguages":{},"_languagePackSupport":true}
 # environment
@@ -81,13 +78,13 @@ QT_SCALE_FACTOR = 1
 # environment
 CLUTTER_IM_MODULE = ibus
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/32356/vscode-ipc-3ae0dca7-80e7-4a1d-b282-1ca9d9aac536.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/32356/vscode-ipc-c093f9c3-9e4e-497c-92d0-8dd4d1ce058b.sock
 # environment
 VSCODE_CWD = /home/bamarty
 # environment
 XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
 # environment
-KRB5CCNAME = FILE:/tmp/krb5cc_32356_mSNNTf
+KRB5CCNAME = FILE:/tmp/krb5cc_32356_2KXG2t
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -97,7 +94,7 @@ GRM = compilator.y
 # environment
 GPG_AGENT_INFO = /run/user/32356/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/insa-20658:@/tmp/.ICE-unix/1368,unix/insa-20658:/tmp/.ICE-unix/1368
+SESSION_MANAGER = local/insa-11284:@/tmp/.ICE-unix/2820,unix/insa-11284:/tmp/.ICE-unix/2820
 # environment
 XDG_RUNTIME_DIR = /run/user/32356
 # environment
@@ -115,7 +112,7 @@ XDG_SESSION_DESKTOP = mate
 # environment
 SSH_AUTH_SOCK = /run/user/32356/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1930
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5891
 # automatic
 %F = $(notdir $%)
 # environment
@@ -133,7 +130,7 @@ QT_QPA_PLATFORMTHEME = gtk2
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 1445
+SSH_AGENT_PID = 2895
 # environment
 PKG_CONFIG_PATH = /usr/local/insa/shared/opam/default/lib/pkgconfig:/usr/local/insa/shared/opam/default/lib/pkgconfig:
 # environment
@@ -149,11 +146,11 @@ HOME = /home/bamarty
 # environment
 LD_LIBRARY_PATH = /usr/local/insa/lib:$LD_LIBRARY_PATH
 # environment
-VSCODE_CODE_CACHE_PATH = /home/bamarty/.config/Code/CachedData/b5205cc8eb4fbaa726835538cd82372cc0222d43
+VSCODE_CODE_CACHE_PATH = /home/bamarty/.config/Code/CachedData/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1
 # environment
 LOGNAME = bamarty
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -177,7 +174,7 @@ CC = gcc
 # environment
 COMPIZ_CONFIG_PROFILE = mate
 # environment
-XDG_SESSION_ID = c2
+XDG_SESSION_ID = c3
 # environment
 USER = bamarty
 # environment
@@ -197,11 +194,9 @@ MAKE_COMMAND := make
 # automatic
 *F = $(notdir $*)
 # environment
-LANGUAGE = fr_FR
-# environment
 XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
 # environment
-VSCODE_IPC_HOOK = /run/user/32356/vscode-828469b0-1.65.0-main.sock
+VSCODE_IPC_HOOK = /run/user/32356/vscode-828469b0-1.65.2-main.sock
 # makefile (from 'Makefile', line 2)
 LEX = compilator.l
 # makefile
@@ -247,9 +242,9 @@ MATE_DESKTOP_SESSION_ID = this-is-deprecated
 # environment
 LANG = C
 # environment
-VSCODE_PID = 1930
+VSCODE_PID = 5891
 # variable set hash-table stats:
-# Load=118/1024=12%, Rehash=0, Collisions=13/148=9%
+# Load=116/1024=11%, Rehash=0, Collisions=13/149=9%
 
 # Pattern-specific Variable Values
 
@@ -257,78 +252,113 @@ VSCODE_PID = 1930
 
 # Directories
 
-# . (device 60, inode 2921609969): 15 files, 1 impossibilities.
+# . (device 54, inode 2921609969): 26 files, no impossibilities.
 
-# 15 files, 1 impossibilities in 1 directories.
+# 26 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 %.o: %.c
 #  recipe to execute (from 'Makefile', line 13):
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 # 1 implicit rules, 0 (0.0%) terminal.
 
 # Files
 
+# Not a target:
+ts.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 all: compilator
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+
+# Not a target:
+comp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
 #  File has not been updated.
 
-lex.yy.o: lex.yy.c
-#  Implicit rule search has been done.
+# Not a target:
+lex.yy.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+testdecla: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 28):
+	echo "main(){int abc;}" | ./compilator
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
  
-#  Implicit/static pattern stem: 'lex.yy'
-#  Last modified 2022-03-04 14:31:09.267282
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 13):
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-02-28 16:41:45.827549
+#  Last modified 2022-03-10 12:18:34.119295
 #  File has been updated.
 #  Successfully updated.
+
+test: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 37):
+	cat ./test.txt | ./compilator
 
 # Not a target:
 compilator.l:
-#  Implicit rule search has been done.
-#  Last modified 2022-03-04 14:30:17.30226
-#  File has been updated.
-#  Successfully updated.
-
-compilator: y.tab.o lex.yy.o main.o
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Modification time never checked.
 #  File has not been updated.
+
+compilator: y.tab.o lex.yy.o ts.o comp.o
+#  Implicit rule search has not been done.
+#  Last modified 2022-03-10 12:21:23.293198
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 22):
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 # Not a target:
 compilator.y:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-04 14:31:05.653274
+#  Last modified 2022-03-11 16:18:22.384235
 #  File has been updated.
 #  Successfully updated.
 
 y.tab.o: y.tab.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'y.tab'
-#  Last modified 2022-03-04 14:31:09.207276
+#  Last modified 2022-03-10 12:21:23.141202
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 13):
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 lex.yy.c: compilator.l
 #  Implicit rule search has not been done.
-#  Last modified 2022-03-04 14:30:19.562264
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 19):
 	flex $<
 
@@ -347,32 +377,59 @@ clean:
 
 y.tab.c: compilator.y
 #  Implicit rule search has not been done.
-#  Last modified 2022-03-04 14:31:09.171285
+#  Implicit/static pattern stem: ''
+#  Last modified 2022-03-11 16:16:37.848149
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := y.tab.c
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := compilator.y
+# automatic
+# | := 
+# automatic
+# < := compilator.y
+# automatic
+# ^ := compilator.y
+# automatic
+# ? := compilator.y
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
 #  recipe to execute (from 'Makefile', line 16):
-	yacc -d $<
+	yacc -d -v -t $<
 
-# Not a target:
-main.o:
-#  Implicit rule search has been done.
-#  File does not exist.
+testprint: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
 #  File has not been updated.
+#  recipe to execute (from 'Makefile', line 34):
+	echo "main(){printf(ok);}" | ./compilator
+
+testinstru: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 31):
+	echo "main(){a = 6 + 5;}" | ./compilator
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/39=0%
+# Load=18/1024=2%, Rehash=0, Collisions=1/45=2%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 28 / storage = 232 B / avg = 8 B
-# current buf: size = 8162 B / used = 232 B / count = 28 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 39 / storage = 310 B / avg = 7 B
+# current buf: size = 8162 B / used = 310 B / count = 39 / avg = 7 B
 
-# strcache performance: lookups = 51 / hit rate = 45%
+# strcache performance: lookups = 70 / hit rate = 44%
 # hash-table stats:
-# Load=28/8192=0%, Rehash=0, Collisions=1/51=2%
-# Finished Make data base on Fri Mar  4 14:33:59 2022
+# Load=39/8192=0%, Rehash=0, Collisions=1/70=1%
+# Finished Make data base on Fri Mar 11 16:19:05 2022
 
  

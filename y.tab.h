@@ -38,7 +38,7 @@
 # define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -117,8 +117,8 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 7 "compilator.y"
- int nb; char var; 
+#line 13 "compilator.y"
+ int nb; char * var; 
 
 #line 124 "y.tab.h"
 

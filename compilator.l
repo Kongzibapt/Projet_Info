@@ -32,7 +32,7 @@ if                       return tIF;
 while                    return tWHILE;
 else                     return tELSE;
 {D}+                     {yylval.nb = atoi(yytext); return tINTVAL;}
-{N}                      {yylval.var = yytext[0]; return tID;}
+{N}                      {yylval.var = strdup(yytext); return tID;}
 .                        return tERROR;
 
 %%

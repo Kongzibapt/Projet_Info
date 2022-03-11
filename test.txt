@@ -1,10 +1,10 @@
 main()
 { 
-    int b ;
-    int e=3;
-    b=1+2+3+4+5 ;
-    printf(b);
+    int a = 1;
+    const b = a;
+    int c,d;
+    const anto =2;
+    int a=5;
     
-
 
 }

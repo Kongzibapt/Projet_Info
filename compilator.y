@@ -1,10 +1,16 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-int var[26];
+#include "ts.h"
+#include "comp.h"
+#include <string.h>
+
+int type; //0 is const et is int
+
+char* var[26];
 void yyerror(char *s);
 %}
-%union { int nb; char var; }
+%union { int nb; char * var; }
 %token tMAIN tOB tCB tCONST tINT tADD tSUB tMUL tDIV tEQ tOP tCP tSPACE tTAB tCOMMA tENDL tSEMI tPRINT tMULTDEF tERROR tIF tELSE tWHILE tSUP tINF tNOT tAND tOR
 %token <nb> tINTVAL
 %token <var> tID
@@ -16,10 +22,14 @@ Code : Declarations Instructions {printf("declaAndInstrs\n");}
       | Instructions {printf("instrs\n");};
 Declarations : Declaration Declarations {printf("declas\n");} 
       | Declaration {printf("decla\n");};
-Declaration : tCONST tID tEQ tINTVAL tSEMI {printf("constAndVal\n");}
-      | tCONST tID tSEMI {printf("const\n");}
-      | tINT tID tEQ tINTVAL tSEMI {printf("intAndVal\n");}
-      | tINT tID tSEMI {printf("Int\n");};
+Declaration :
+        tCONST { type = 0; } Variables tSEMI {printf("const\n");}
+      | tINT { type = 1; }  Variables tSEMI {printf("Int\n");};
+Variables : tID { 
+                  compAddSymbol($1, type);
+                  printf("Variables\n");}
+      | tID { compAddSymbol($1, type); } tCOMMA Variables {printf("variablesMul\n");}
+      | tID tEQ Expr {compAddSymbol($1, type);printf("declaexp\n");};
 Instructions : Instruction Instructions {printf("instrs\n");}
       | Instruction {printf("instr\n");};
 Instruction : Calcul {printf("calc\n");} 
@@ -39,14 +49,15 @@ Terme : tOP Expr tCP {printf("parentExpr\n");}
 Func : Print tSEMI {printf("funcprintsemi\n");}
 Bloc:  If {printf("if\n");}
       | If Else {printf("ifelse\n");}
-      | If ElseIfs Else {printf("ifelseif\n");}
+      | If ElseIf {printf("elseif\n");}
       | While {printf("while\n");};
 Print : tPRINT tOP tID tCP {printf("funcprint\n");};
 If : tIF tOP Cond tCP tOB Code tCB {printf("blocif\n");};
 Else : tELSE tOB Code tCB {printf("blocelse\n");};
-ElseIfs : ElseIf ElseIfs {printf("blocifelsesss\n");};
-      | ElseIf {printf("blocifelse\n");};
-ElseIf : tELSE tIF tOP Cond tCP tOB Code tCB {printf("contenublocifelse\n");};
+
+ElseIf : tELSE If {printf("contenublocifelse\n");}
+      |tELSE If ElseIf {printf("contenublocifelseMul\n");};
+      |tELSE If Else {printf("elseifelse\n");}
 Cond : Inf {printf("condInf\n");} 
       | Sup {printf("condSup\n");}
       | Eq {printf("condEq\n");}
@@ -70,8 +81,11 @@ CondPart : Expr {printf("condExpr\n");} | tOP Cond tCP {printf("condPart\n");};
 While : tWHILE tOP Cond tCP tOB Code tCB {printf("contenublocwhile\n");};
 %%
 void yyerror(char *s) { fprintf(stderr, "%s\n", s); }
+
 int main(void) {
   printf("Compilateur\n"); // yydebug=1;
+  createStackSymbols();
   yyparse();
+  print_stack(); 
   return 0;
 }
