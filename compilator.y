@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "ts.h"
 #include "comp.h"
+#include "code.h"
 #include <string.h>
 
 int type; //0 is const, 2 is temp et 1 is int
@@ -58,7 +59,7 @@ Bloc:  If {printf("if\n");}
       | If Else {printf("ifelse\n");}
       | If ElseIf {printf("elseif\n");}
       | While {printf("while\n");};
-Print : tPRINT tOP tID tCP {printf("funcprint\n");};
+Print : tPRINT tOP tID {compAddSymbol("",2,depth);} tCP {put_instruction(0);};
 If : tIF tOP Cond tCP tOB {depth++;} Code tCB {printf("blocif\n");popSymbol(depth);depth--;};
 Else : tELSE tOB {depth++;} Code tCB {printf("blocelse\n");popSymbol(depth);depth--;};
 

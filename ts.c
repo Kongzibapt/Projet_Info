@@ -84,6 +84,16 @@ struct Symbol findTop()
     return stack.arraySymbols[stack.top];
 }
 
+struct Symbol findTemp()
+{
+    if (isEmpty(stack)){
+        printf("stack is empty\n");
+        exit(EXIT_FAILURE);
+    }
+    return stack.arraySymbols[stack.end];
+}
+
+
 void print_stack(){
     printf("ok print\n");
     printf("%d \n",stack.top);

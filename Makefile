@@ -5,7 +5,7 @@ BIN=compilator
 CC=gcc
 CFLAGS=-Wall -g
 
-OBJ=y.tab.o lex.yy.o ts.o comp.o
+OBJ=y.tab.o lex.yy.o ts.o comp.o code.o
 
 all: $(BIN)
 

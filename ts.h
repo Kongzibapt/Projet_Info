@@ -15,6 +15,8 @@ struct Symbol popSymbol(int depth);
 
 struct Symbol findTop();
 
+struct Symbol findTemp();
+
 void print_stack();
 
 int find_symbol(char *name);

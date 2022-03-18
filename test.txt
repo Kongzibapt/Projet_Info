@@ -1,11 +1,6 @@
 main()
 { 
-    int a,d,c;
-    int b;
-    if (a==b){
-        const c;
-    }else{
-        const e;
-    }
+    int a;
+    printf(a);
    
 }
