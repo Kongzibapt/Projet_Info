@@ -11,7 +11,7 @@ int isEmpty();
 
 void pushSymbol(struct Symbol newSymbol);
 
-struct Symbol popSymbol();
+struct Symbol popSymbol(int depth);
 
 struct Symbol findTop();
 

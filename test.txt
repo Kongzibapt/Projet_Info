@@ -1,10 +1,11 @@
 main()
 { 
-    int a = 1;
-    const b = a;
-    int c,d;
-    const anto =2;
-    int a=5;
-    
-
+    int a,d,c;
+    int b;
+    if (a==b){
+        const c;
+    }else{
+        const e;
+    }
+   
 }

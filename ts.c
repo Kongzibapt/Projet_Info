@@ -9,6 +9,7 @@
 struct StackSymbols {
     int top;
     int depth;
+    int end;
     struct Symbol arraySymbols[SIZE];
 };
 
@@ -18,6 +19,7 @@ void createStackSymbols(){
     printf("stack created\n");
     stack.top = -1;
     stack.depth = 0;
+    stack.end = SIZE;
 }
 
 int isEmpty(){
@@ -25,12 +27,19 @@ int isEmpty(){
 }
 
 void pushSymbol(struct Symbol newSymbol){
-    newSymbol.address=++stack.top;
-    newSymbol.depth = stack.depth;
-    printf("top %d\n",stack.top);
-    printf("depth %d\n",stack.depth);
-    stack.arraySymbols[stack.top]=newSymbol;
-    printf("symbol %s pushed to stack \n",newSymbol.id);
+    if(newSymbol.type==2){
+        newSymbol.address=--stack.end;
+        printf("end %d\n",stack.end);
+        printf("depth %d\n",newSymbol.depth);
+        stack.arraySymbols[stack.end]=newSymbol;
+        printf("symbol temp %s pushed to stack \n",newSymbol.id);
+    }else{
+        newSymbol.address=++stack.top;
+        printf("top %d\n",stack.top);
+        printf("depth %d\n",newSymbol.depth);
+        stack.arraySymbols[stack.top]=newSymbol;
+        printf("symbol %s pushed to stack \n",newSymbol.id);
+    }
 }
 
 void incDepth() {
@@ -41,12 +50,28 @@ void decDepth() {
     stack.depth--;
 }
 
-struct Symbol popSymbol(){
+struct Symbol popSymbol(int depth){
     if(isEmpty(stack)){
         printf("Stack is empty.\n");
         exit(EXIT_FAILURE);
     }else{
-        return stack.arraySymbols[stack.top--];
+        for(int i=0;i<stack.top+1;i++){
+            if(stack.arraySymbols[stack.top].depth==depth){
+                stack.top--;
+            }
+        }
+        return stack.arraySymbols[stack.top];
+    }
+}
+
+struct Symbol freeTemp(){
+    if(isEmpty(stack)){
+        printf("Stack is empty.\n");
+        exit(EXIT_FAILURE);
+    }else{
+        stack.end = SIZE;
+        printf("free temp.\n");
+        return stack.arraySymbols[stack.top];
     }
 }
 
@@ -63,8 +88,12 @@ void print_stack(){
     printf("ok print\n");
     printf("%d \n",stack.top);
      printf("-----------\n");
+     printf("Nom | @ | type | depth \n");
     for(int i=0;i<stack.top+1;i++){
-        printf("%s | %d | %d | %d \n",stack.arraySymbols[i].id,stack.arraySymbols[i].address,stack.arraySymbols[i].type,stack.arraySymbols[i].depth);
+        printf("%s   | %d |  %d   | %d \n",stack.arraySymbols[i].id,stack.arraySymbols[i].address,stack.arraySymbols[i].type,stack.arraySymbols[i].depth);
+    }
+    for(int i=sizeof(stack);i<stack.end;i--){
+        printf("%s   | %d |  %d   | %d \n",stack.arraySymbols[i].id,stack.arraySymbols[i].address,stack.arraySymbols[i].type,stack.arraySymbols[i].depth);
     }
 }
 
