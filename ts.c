@@ -26,7 +26,7 @@ int isEmpty(){
     return stack.top == -1;
 }
 
-void pushSymbol(struct Symbol newSymbol){
+int pushSymbol(struct Symbol newSymbol){
     if(newSymbol.type==2){
         newSymbol.address=--stack.end;
         printf("end %d\n",stack.end);
@@ -40,8 +40,24 @@ void pushSymbol(struct Symbol newSymbol){
         stack.arraySymbols[stack.top]=newSymbol;
         printf("symbol %s pushed to stack \n",newSymbol.id);
     }
+    return newSymbol.address;
 }
 
+int newIntTmp() {
+        struct Symbol newSymbol;
+        newSymbol.id = "";
+        newSymbol.type = 2;
+        newSymbol.depth = stack.depth;
+        return pushSymbol(newSymbol);
+}
+
+int newInt(char *nom) {
+        struct Symbol newSymbol;
+        newSymbol.id = nom;
+        newSymbol.type = 1;
+        newSymbol.depth = stack.depth;
+        return pushSymbol(newSymbol);
+}
 void incDepth() {
     stack.depth++;
 }
@@ -64,12 +80,24 @@ struct Symbol popSymbol(int depth){
     }
 }
 
+
 struct Symbol freeTemp(){
     if(isEmpty(stack)){
         printf("Stack is empty.\n");
         exit(EXIT_FAILURE);
     }else{
         stack.end = SIZE;
+        printf("free temp.\n");
+        return stack.arraySymbols[stack.top];
+    }
+}
+
+struct Symbol freeLastTemp(){
+    if(isEmpty(stack)){
+        printf("Stack is empty.\n");
+        exit(EXIT_FAILURE);
+    }else{
+        stack.end ++;
         printf("free temp.\n");
         return stack.arraySymbols[stack.top];
     }
@@ -84,13 +112,14 @@ struct Symbol findTop()
     return stack.arraySymbols[stack.top];
 }
 
-struct Symbol findTemp()
+int findTemp()
 {
-    if (isEmpty(stack)){
-        printf("stack is empty\n");
-        exit(EXIT_FAILURE);
-    }
-    return stack.arraySymbols[stack.end];
+    return stack.end;
+}
+
+int findLastTemp()
+{
+    return stack.end + 1;
 }
 
 
@@ -109,14 +138,14 @@ void print_stack(){
 
 int find_symbol(char *name){
     
-    for(int i=0;i<stack.top;i++){
+    for(int i=0;i<=stack.top;i++){
         
         if (strcmp(stack.arraySymbols[i].id,name)==0){
             printf("founded symbol\n");
-            return 0;
+            return i;
         }
         
     }
     printf("not founded symbol\n");
-    return 1;
+    return -1;
 }

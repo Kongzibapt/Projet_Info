@@ -9,13 +9,17 @@ void createStackSymbols();
 
 int isEmpty();
 
-void pushSymbol(struct Symbol newSymbol);
+int pushSymbol(struct Symbol newSymbol);
+
+int newIntTmp();
+
+int newInt(char *nom);
 
 struct Symbol popSymbol(int depth);
 
 struct Symbol findTop();
 
-struct Symbol findTemp();
+int findTemp();
 
 void print_stack();
 

@@ -31,35 +31,38 @@ Declaration :
         tCONST { type = 0; } Variables tSEMI {printf("const\n");}
       | tINT { type = 1; }  Variables tSEMI {printf("Int\n");};
 Variables : tID { 
-                  compAddSymbol($1, type,depth);
+                  newInt($1);
                   printf("Variables\n");}
-      | tID { compAddSymbol($1, type,depth); } tCOMMA Variables {printf("variablesMul\n");}
-      | tID tEQ Expr {compAddSymbol($1, type,depth);printf("declaexp\n");put_instruction(1)};
+      | tID { newInt($1); } tCOMMA Variables {printf("variablesMul\n");}
+      | tID tEQ Expr {newInt($1); compAffectation($1); };
+
 Instructions : Instruction Instructions {printf("instrs\n");}
       | Instruction {printf("instr\n");};
 Instruction : Calcul {printf("calc\n");} 
       | Func {printf("func\n");}
       | Bloc {printf("bloc\n");};  
 Calcul : Expr tSEMI {printf("expr\n");}
-      | tID tEQ Expr tSEMI {printf("varEqExpr\n");freeTemp();};
+      | tID tEQ Expr tSEMI {compAffectation($1); freeTemp();};
 Expr : Mul {printf("condmul\n");}
       | Add {printf("condadd\n");}
       | Sub {printf("condsub\n");}
       | Div {printf("conddiv\n");}
       | Terme {printf("condterm\n");};   
-Mul : Expr tMUL Expr {printf("mul\n");};
-Add : Expr tADD Expr {printf("add\n");};
-Sub : Expr tSUB Expr {printf("sub\n");};
-Div : Expr tDIV Expr {printf("div\n");};
-Terme : tOP Expr tCP {printf("parentExpr\n");}
-      | tID {printf("id\n");find_symbol($1);compAddSymbol("",2,depth);}
-      | tINTVAL {printf("val\n");type = 2;compAddSymbol("",2,depth);};
+Mul : Expr tMUL Expr {compMul();};
+Add : Expr tADD Expr {compAdd();};
+Sub : Expr tSUB Expr {compSub();};
+Div : Expr tDIV Expr {compDiv();};
+
+Terme : tOP Expr tCP {}
+      | tID {compArithID($1);}
+      | tINTVAL {compArithNB($1);};
+
 Func : Print tSEMI {printf("funcprintsemi\n");}
 Bloc:  If {printf("if\n");}
       | If Else {printf("ifelse\n");}
       | If ElseIf {printf("elseif\n");}
       | While {printf("while\n");};
-Print : tPRINT tOP tID {compAddSymbol("",2,depth);} tCP {put_instruction(0);printf("ici et la \n");};
+Print : tPRINT tOP tID tCP {compPrintID($3);};
 If : tIF tOP Cond tCP tOB {depth++;} Code tCB {printf("blocif\n");popSymbol(depth);depth--;};
 Else : tELSE tOB {depth++;} Code tCB {printf("blocelse\n");popSymbol(depth);depth--;};
 
@@ -76,9 +79,9 @@ Cond : Inf {printf("condInf\n");}
       | Or {printf("condOr\n");}
       | Not {printf("condNot\n");}
       | Expr {printf("condexpr\n");};
-Inf : CondPart tINF CondPart {printf("inf\n");};
-Sup : CondPart tSUP CondPart {printf("sup\n");};
-Eq : CondPart tEQ tEQ CondPart {printf("eq\n");};
+Inf : CondPart tINF CondPart {compInf();};
+Sup : CondPart tSUP CondPart {compSup();};
+Eq : CondPart tEQ tEQ CondPart {compEqu();};
 InfEq : CondPart tINF tEQ CondPart {printf("infeq\n");};
 SupEq : CondPart tSUP tEQ CondPart {printf("supeq\n");};
 Diff : CondPart tNOT tEQ CondPart {printf("diff\n");};
@@ -95,5 +98,6 @@ int main(void) {
   createStackSymbols();
   yyparse();
   print_stack(); 
+  printTI();
   return 0;
 }

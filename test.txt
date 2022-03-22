@@ -1,8 +1,15 @@
-main()
-{ 
-    int a;
-    const b;
-    printf(a);
-    printf(b);
-   
+main() {
+	int a;
+	int b;
+	int c;
+    int d;
+    int m;
+    int s;
+	a = b;
+	b = 12;
+	c = a + (2-b);
+    if (a>b){
+
+    }
+	printf(a);
 }
