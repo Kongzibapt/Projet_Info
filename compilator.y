@@ -21,7 +21,7 @@ void yyerror(char *s);
 %left '*' '/'
 %start Compilator
 %%
-Compilator : tMAIN tOP tCP tOB Code tCB {printf("main\n");depth=0;};
+Compilator : tMAIN {flush_file();} tOP tCP tOB Code tCB {printf("main\n");depth=0;};
 Code : Declarations Instructions {printf("declaAndInstrs\n");}
       | Declarations {printf("declas\n");} 
       | Instructions {printf("instrs\n");};
@@ -34,7 +34,7 @@ Variables : tID {
                   compAddSymbol($1, type,depth);
                   printf("Variables\n");}
       | tID { compAddSymbol($1, type,depth); } tCOMMA Variables {printf("variablesMul\n");}
-      | tID tEQ Expr {compAddSymbol($1, type,depth);printf("declaexp\n");};
+      | tID tEQ Expr {compAddSymbol($1, type,depth);printf("declaexp\n");put_instruction(1)};
 Instructions : Instruction Instructions {printf("instrs\n");}
       | Instruction {printf("instr\n");};
 Instruction : Calcul {printf("calc\n");} 
@@ -59,7 +59,7 @@ Bloc:  If {printf("if\n");}
       | If Else {printf("ifelse\n");}
       | If ElseIf {printf("elseif\n");}
       | While {printf("while\n");};
-Print : tPRINT tOP tID {compAddSymbol("",2,depth);} tCP {put_instruction(0);};
+Print : tPRINT tOP tID {compAddSymbol("",2,depth);} tCP {put_instruction(0);printf("ici et la \n");};
 If : tIF tOP Cond tCP tOB {depth++;} Code tCB {printf("blocif\n");popSymbol(depth);depth--;};
 Else : tELSE tOB {depth++;} Code tCB {printf("blocelse\n");popSymbol(depth);depth--;};
 

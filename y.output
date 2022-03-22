@@ -12,127 +12,129 @@ Terminaux inutilisés dans la grammaire
     '/'
 
 
-État 74 conflits: 4 décalage/réduction
 État 75 conflits: 4 décalage/réduction
 État 76 conflits: 4 décalage/réduction
 État 77 conflits: 4 décalage/réduction
-État 85 conflits: 1 décalage/réduction
+État 78 conflits: 4 décalage/réduction
+État 86 conflits: 1 décalage/réduction
 
 
 Grammaire
 
     0 $accept: Compilator $end
 
-    1 Compilator: tMAIN tOP tCP tOB Code tCB
+    1 $@1: %empty
 
-    2 Code: Declarations Instructions
-    3     | Declarations
-    4     | Instructions
+    2 Compilator: tMAIN $@1 tOP tCP tOB Code tCB
 
-    5 Declarations: Declaration Declarations
-    6             | Declaration
+    3 Code: Declarations Instructions
+    4     | Declarations
+    5     | Instructions
 
-    7 $@1: %empty
+    6 Declarations: Declaration Declarations
+    7             | Declaration
 
-    8 Declaration: tCONST $@1 Variables tSEMI
+    8 $@2: %empty
 
-    9 $@2: %empty
+    9 Declaration: tCONST $@2 Variables tSEMI
 
-   10 Declaration: tINT $@2 Variables tSEMI
+   10 $@3: %empty
 
-   11 Variables: tID
+   11 Declaration: tINT $@3 Variables tSEMI
 
-   12 $@3: %empty
+   12 Variables: tID
 
-   13 Variables: tID $@3 tCOMMA Variables
-   14          | tID tEQ Expr
+   13 $@4: %empty
 
-   15 Instructions: Instruction Instructions
-   16             | Instruction
+   14 Variables: tID $@4 tCOMMA Variables
+   15          | tID tEQ Expr
 
-   17 Instruction: Calcul
-   18            | Func
-   19            | Bloc
+   16 Instructions: Instruction Instructions
+   17             | Instruction
 
-   20 Calcul: Expr tSEMI
-   21       | tID tEQ Expr tSEMI
+   18 Instruction: Calcul
+   19            | Func
+   20            | Bloc
 
-   22 Expr: Mul
-   23     | Add
-   24     | Sub
-   25     | Div
-   26     | Terme
+   21 Calcul: Expr tSEMI
+   22       | tID tEQ Expr tSEMI
 
-   27 Mul: Expr tMUL Expr
+   23 Expr: Mul
+   24     | Add
+   25     | Sub
+   26     | Div
+   27     | Terme
 
-   28 Add: Expr tADD Expr
+   28 Mul: Expr tMUL Expr
 
-   29 Sub: Expr tSUB Expr
+   29 Add: Expr tADD Expr
 
-   30 Div: Expr tDIV Expr
+   30 Sub: Expr tSUB Expr
 
-   31 Terme: tOP Expr tCP
-   32      | tID
-   33      | tINTVAL
+   31 Div: Expr tDIV Expr
 
-   34 Func: Print tSEMI
+   32 Terme: tOP Expr tCP
+   33      | tID
+   34      | tINTVAL
 
-   35 Bloc: If
-   36     | If Else
-   37     | If ElseIf
-   38     | While
+   35 Func: Print tSEMI
 
-   39 $@4: %empty
+   36 Bloc: If
+   37     | If Else
+   38     | If ElseIf
+   39     | While
 
-   40 Print: tPRINT tOP tID $@4 tCP
+   40 $@5: %empty
 
-   41 $@5: %empty
+   41 Print: tPRINT tOP tID $@5 tCP
 
-   42 If: tIF tOP Cond tCP tOB $@5 Code tCB
+   42 $@6: %empty
 
-   43 $@6: %empty
+   43 If: tIF tOP Cond tCP tOB $@6 Code tCB
 
-   44 Else: tELSE tOB $@6 Code tCB
+   44 $@7: %empty
 
-   45 ElseIf: tELSE If
-   46       | tELSE If ElseIf
-   47       | tELSE If Else
+   45 Else: tELSE tOB $@7 Code tCB
 
-   48 Cond: Inf
-   49     | Sup
-   50     | Eq
-   51     | InfEq
-   52     | SupEq
-   53     | Diff
-   54     | And
-   55     | Or
-   56     | Not
-   57     | Expr
+   46 ElseIf: tELSE If
+   47       | tELSE If ElseIf
+   48       | tELSE If Else
 
-   58 Inf: CondPart tINF CondPart
+   49 Cond: Inf
+   50     | Sup
+   51     | Eq
+   52     | InfEq
+   53     | SupEq
+   54     | Diff
+   55     | And
+   56     | Or
+   57     | Not
+   58     | Expr
 
-   59 Sup: CondPart tSUP CondPart
+   59 Inf: CondPart tINF CondPart
 
-   60 Eq: CondPart tEQ tEQ CondPart
+   60 Sup: CondPart tSUP CondPart
 
-   61 InfEq: CondPart tINF tEQ CondPart
+   61 Eq: CondPart tEQ tEQ CondPart
 
-   62 SupEq: CondPart tSUP tEQ CondPart
+   62 InfEq: CondPart tINF tEQ CondPart
 
-   63 Diff: CondPart tNOT tEQ CondPart
+   63 SupEq: CondPart tSUP tEQ CondPart
 
-   64 And: CondPart tAND CondPart
+   64 Diff: CondPart tNOT tEQ CondPart
 
-   65 Or: CondPart tOR CondPart
+   65 And: CondPart tAND CondPart
 
-   66 Not: tNOT CondPart
+   66 Or: CondPart tOR CondPart
 
-   67 CondPart: Expr
-   68         | tOP Cond tCP
+   67 Not: tNOT CondPart
 
-   69 $@7: %empty
+   68 CondPart: Expr
+   69         | tOP Cond tCP
 
-   70 While: tWHILE tOP Cond tCP tOB $@7 Code tCB
+   70 $@8: %empty
+
+   71 While: tWHILE tOP Cond tCP tOB $@8 Code tCB
 
 
 Terminaux, suivis des règles où ils apparaissent
@@ -144,36 +146,36 @@ Terminaux, suivis des règles où ils apparaissent
     '/' (47)
     '=' (61)
     error (256)
-    tMAIN (258) 1
-    tOB (259) 1 42 44 70
-    tCB (260) 1 42 44 70
-    tCONST (261) 8
-    tINT (262) 10
-    tADD (263) 28
-    tSUB (264) 29
-    tMUL (265) 27
-    tDIV (266) 30
-    tEQ (267) 14 21 60 61 62 63
-    tOP (268) 1 31 40 42 68 70
-    tCP (269) 1 31 40 42 68 70
+    tMAIN (258) 2
+    tOB (259) 2 43 45 71
+    tCB (260) 2 43 45 71
+    tCONST (261) 9
+    tINT (262) 11
+    tADD (263) 29
+    tSUB (264) 30
+    tMUL (265) 28
+    tDIV (266) 31
+    tEQ (267) 15 22 61 62 63 64
+    tOP (268) 2 32 41 43 69 71
+    tCP (269) 2 32 41 43 69 71
     tSPACE (270)
     tTAB (271)
-    tCOMMA (272) 13
+    tCOMMA (272) 14
     tENDL (273)
-    tSEMI (274) 8 10 20 21 34
-    tPRINT (275) 40
+    tSEMI (274) 9 11 21 22 35
+    tPRINT (275) 41
     tMULTDEF (276)
     tERROR (277)
-    tIF (278) 42
-    tELSE (279) 44 45 46 47
-    tWHILE (280) 70
-    tSUP (281) 59 62
-    tINF (282) 58 61
-    tNOT (283) 63 66
-    tAND (284) 64
-    tOR (285) 65
-    tINTVAL <nb> (286) 33
-    tID <var> (287) 11 13 14 21 32 40
+    tIF (278) 43
+    tELSE (279) 45 46 47 48
+    tWHILE (280) 71
+    tSUP (281) 60 63
+    tINF (282) 59 62
+    tNOT (283) 64 67
+    tAND (284) 65
+    tOR (285) 66
+    tINTVAL <nb> (286) 34
+    tID <var> (287) 12 14 15 22 33 41
 
 
 Non-terminaux, suivis des règles où ils apparaissent
@@ -181,122 +183,125 @@ Non-terminaux, suivis des règles où ils apparaissent
     $accept (38)
         à gauche: 0
     Compilator (39)
-        à gauche: 1
+        à gauche: 2
         à droite: 0
-    Code (40)
-        à gauche: 2 3 4
-        à droite: 1 42 44 70
-    Declarations (41)
-        à gauche: 5 6
-        à droite: 2 3 5
-    Declaration (42)
-        à gauche: 8 10
-        à droite: 5 6
-    $@1 (43)
-        à gauche: 7
-        à droite: 8
+    $@1 (40)
+        à gauche: 1
+        à droite: 2
+    Code (41)
+        à gauche: 3 4 5
+        à droite: 2 43 45 71
+    Declarations (42)
+        à gauche: 6 7
+        à droite: 3 4 6
+    Declaration (43)
+        à gauche: 9 11
+        à droite: 6 7
     $@2 (44)
-        à gauche: 9
-        à droite: 10
-    Variables (45)
-        à gauche: 11 13 14
-        à droite: 8 10 13
-    $@3 (46)
-        à gauche: 12
-        à droite: 13
-    Instructions (47)
-        à gauche: 15 16
-        à droite: 2 4 15
-    Instruction (48)
-        à gauche: 17 18 19
-        à droite: 15 16
-    Calcul (49)
-        à gauche: 20 21
-        à droite: 17
-    Expr (50)
-        à gauche: 22 23 24 25 26
-        à droite: 14 20 21 27 28 29 30 31 57 67
-    Mul (51)
-        à gauche: 27
-        à droite: 22
-    Add (52)
+        à gauche: 8
+        à droite: 9
+    $@3 (45)
+        à gauche: 10
+        à droite: 11
+    Variables (46)
+        à gauche: 12 14 15
+        à droite: 9 11 14
+    $@4 (47)
+        à gauche: 13
+        à droite: 14
+    Instructions (48)
+        à gauche: 16 17
+        à droite: 3 5 16
+    Instruction (49)
+        à gauche: 18 19 20
+        à droite: 16 17
+    Calcul (50)
+        à gauche: 21 22
+        à droite: 18
+    Expr (51)
+        à gauche: 23 24 25 26 27
+        à droite: 15 21 22 28 29 30 31 32 58 68
+    Mul (52)
         à gauche: 28
         à droite: 23
-    Sub (53)
+    Add (53)
         à gauche: 29
         à droite: 24
-    Div (54)
+    Sub (54)
         à gauche: 30
         à droite: 25
-    Terme (55)
-        à gauche: 31 32 33
+    Div (55)
+        à gauche: 31
         à droite: 26
-    Func (56)
-        à gauche: 34
-        à droite: 18
-    Bloc (57)
-        à gauche: 35 36 37 38
+    Terme (56)
+        à gauche: 32 33 34
+        à droite: 27
+    Func (57)
+        à gauche: 35
         à droite: 19
-    Print (58)
-        à gauche: 40
-        à droite: 34
-    $@4 (59)
-        à gauche: 39
-        à droite: 40
-    If (60)
-        à gauche: 42
-        à droite: 35 36 37 45 46 47
-    $@5 (61)
+    Bloc (58)
+        à gauche: 36 37 38 39
+        à droite: 20
+    Print (59)
         à gauche: 41
-        à droite: 42
-    Else (62)
-        à gauche: 44
-        à droite: 36 47
-    $@6 (63)
+        à droite: 35
+    $@5 (60)
+        à gauche: 40
+        à droite: 41
+    If (61)
         à gauche: 43
-        à droite: 44
-    ElseIf (64)
-        à gauche: 45 46 47
-        à droite: 37 46
-    Cond (65)
-        à gauche: 48 49 50 51 52 53 54 55 56 57
-        à droite: 42 68 70
-    Inf (66)
-        à gauche: 58
-        à droite: 48
-    Sup (67)
+        à droite: 36 37 38 46 47 48
+    $@6 (62)
+        à gauche: 42
+        à droite: 43
+    Else (63)
+        à gauche: 45
+        à droite: 37 48
+    $@7 (64)
+        à gauche: 44
+        à droite: 45
+    ElseIf (65)
+        à gauche: 46 47 48
+        à droite: 38 47
+    Cond (66)
+        à gauche: 49 50 51 52 53 54 55 56 57 58
+        à droite: 43 69 71
+    Inf (67)
         à gauche: 59
         à droite: 49
-    Eq (68)
+    Sup (68)
         à gauche: 60
         à droite: 50
-    InfEq (69)
+    Eq (69)
         à gauche: 61
         à droite: 51
-    SupEq (70)
+    InfEq (70)
         à gauche: 62
         à droite: 52
-    Diff (71)
+    SupEq (71)
         à gauche: 63
         à droite: 53
-    And (72)
+    Diff (72)
         à gauche: 64
         à droite: 54
-    Or (73)
+    And (73)
         à gauche: 65
         à droite: 55
-    Not (74)
+    Or (74)
         à gauche: 66
         à droite: 56
-    CondPart (75)
-        à gauche: 67 68
-        à droite: 58 59 60 61 62 63 64 65 66
-    While (76)
+    Not (75)
+        à gauche: 67
+        à droite: 57
+    CondPart (76)
+        à gauche: 68 69
+        à droite: 59 60 61 62 63 64 65 66 67
+    While (77)
+        à gauche: 71
+        à droite: 39
+    $@8 (78)
         à gauche: 70
-        à droite: 38
-    $@7 (77)
-        à gauche: 69
-        à droite: 70
+        à droite: 71
 
 
 État 0
@@ -310,9 +315,11 @@ Non-terminaux, suivis des règles où ils apparaissent
 
 État 1
 
-    1 Compilator: tMAIN . tOP tCP tOB Code tCB
+    2 Compilator: tMAIN . $@1 tOP tCP tOB Code tCB
 
-    tOP  décalage et aller à l'état 3
+    $défaut  réduction par utilisation de la règle 1 ($@1)
+
+    $@1  aller à l'état 3
 
 
 État 2
@@ -324,9 +331,9 @@ Non-terminaux, suivis des règles où ils apparaissent
 
 État 3
 
-    1 Compilator: tMAIN tOP . tCP tOB Code tCB
+    2 Compilator: tMAIN $@1 . tOP tCP tOB Code tCB
 
-    tCP  décalage et aller à l'état 5
+    tOP  décalage et aller à l'état 5
 
 
 État 4
@@ -338,1412 +345,1419 @@ Non-terminaux, suivis des règles où ils apparaissent
 
 État 5
 
-    1 Compilator: tMAIN tOP tCP . tOB Code tCB
+    2 Compilator: tMAIN $@1 tOP . tCP tOB Code tCB
 
-    tOB  décalage et aller à l'état 6
+    tCP  décalage et aller à l'état 6
 
 
 État 6
 
-    1 Compilator: tMAIN tOP tCP tOB . Code tCB
+    2 Compilator: tMAIN $@1 tOP tCP . tOB Code tCB
 
-    tCONST   décalage et aller à l'état 7
-    tINT     décalage et aller à l'état 8
-    tOP      décalage et aller à l'état 9
-    tPRINT   décalage et aller à l'état 10
-    tIF      décalage et aller à l'état 11
-    tWHILE   décalage et aller à l'état 12
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 14
-
-    Code          aller à l'état 15
-    Declarations  aller à l'état 16
-    Declaration   aller à l'état 17
-    Instructions  aller à l'état 18
-    Instruction   aller à l'état 19
-    Calcul        aller à l'état 20
-    Expr          aller à l'état 21
-    Mul           aller à l'état 22
-    Add           aller à l'état 23
-    Sub           aller à l'état 24
-    Div           aller à l'état 25
-    Terme         aller à l'état 26
-    Func          aller à l'état 27
-    Bloc          aller à l'état 28
-    Print         aller à l'état 29
-    If            aller à l'état 30
-    While         aller à l'état 31
+    tOB  décalage et aller à l'état 7
 
 
 État 7
 
-    8 Declaration: tCONST . $@1 Variables tSEMI
+    2 Compilator: tMAIN $@1 tOP tCP tOB . Code tCB
 
-    $défaut  réduction par utilisation de la règle 7 ($@1)
+    tCONST   décalage et aller à l'état 8
+    tINT     décalage et aller à l'état 9
+    tOP      décalage et aller à l'état 10
+    tPRINT   décalage et aller à l'état 11
+    tIF      décalage et aller à l'état 12
+    tWHILE   décalage et aller à l'état 13
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 15
 
-    $@1  aller à l'état 32
+    Code          aller à l'état 16
+    Declarations  aller à l'état 17
+    Declaration   aller à l'état 18
+    Instructions  aller à l'état 19
+    Instruction   aller à l'état 20
+    Calcul        aller à l'état 21
+    Expr          aller à l'état 22
+    Mul           aller à l'état 23
+    Add           aller à l'état 24
+    Sub           aller à l'état 25
+    Div           aller à l'état 26
+    Terme         aller à l'état 27
+    Func          aller à l'état 28
+    Bloc          aller à l'état 29
+    Print         aller à l'état 30
+    If            aller à l'état 31
+    While         aller à l'état 32
 
 
 État 8
 
-   10 Declaration: tINT . $@2 Variables tSEMI
+    9 Declaration: tCONST . $@2 Variables tSEMI
 
-    $défaut  réduction par utilisation de la règle 9 ($@2)
+    $défaut  réduction par utilisation de la règle 8 ($@2)
 
     $@2  aller à l'état 33
 
 
 État 9
 
-   31 Terme: tOP . Expr tCP
+   11 Declaration: tINT . $@3 Variables tSEMI
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    $défaut  réduction par utilisation de la règle 10 ($@3)
 
-    Expr   aller à l'état 35
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    $@3  aller à l'état 34
 
 
 État 10
 
-   40 Print: tPRINT . tOP tID $@4 tCP
+   32 Terme: tOP . Expr tCP
 
-    tOP  décalage et aller à l'état 36
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr   aller à l'état 36
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 11
 
-   42 If: tIF . tOP Cond tCP tOB $@5 Code tCB
+   41 Print: tPRINT . tOP tID $@5 tCP
 
     tOP  décalage et aller à l'état 37
 
 
 État 12
 
-   70 While: tWHILE . tOP Cond tCP tOB $@7 Code tCB
+   43 If: tIF . tOP Cond tCP tOB $@6 Code tCB
 
     tOP  décalage et aller à l'état 38
 
 
 État 13
 
-   33 Terme: tINTVAL .
+   71 While: tWHILE . tOP Cond tCP tOB $@8 Code tCB
 
-    $défaut  réduction par utilisation de la règle 33 (Terme)
+    tOP  décalage et aller à l'état 39
 
 
 État 14
 
-   21 Calcul: tID . tEQ Expr tSEMI
-   32 Terme: tID .
+   34 Terme: tINTVAL .
 
-    tEQ  décalage et aller à l'état 39
-
-    $défaut  réduction par utilisation de la règle 32 (Terme)
+    $défaut  réduction par utilisation de la règle 34 (Terme)
 
 
 État 15
 
-    1 Compilator: tMAIN tOP tCP tOB Code . tCB
+   22 Calcul: tID . tEQ Expr tSEMI
+   33 Terme: tID .
 
-    tCB  décalage et aller à l'état 40
+    tEQ  décalage et aller à l'état 40
+
+    $défaut  réduction par utilisation de la règle 33 (Terme)
 
 
 État 16
 
-    2 Code: Declarations . Instructions
-    3     | Declarations .
+    2 Compilator: tMAIN $@1 tOP tCP tOB Code . tCB
 
-    tOP      décalage et aller à l'état 9
-    tPRINT   décalage et aller à l'état 10
-    tIF      décalage et aller à l'état 11
-    tWHILE   décalage et aller à l'état 12
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 14
-
-    $défaut  réduction par utilisation de la règle 3 (Code)
-
-    Instructions  aller à l'état 41
-    Instruction   aller à l'état 19
-    Calcul        aller à l'état 20
-    Expr          aller à l'état 21
-    Mul           aller à l'état 22
-    Add           aller à l'état 23
-    Sub           aller à l'état 24
-    Div           aller à l'état 25
-    Terme         aller à l'état 26
-    Func          aller à l'état 27
-    Bloc          aller à l'état 28
-    Print         aller à l'état 29
-    If            aller à l'état 30
-    While         aller à l'état 31
+    tCB  décalage et aller à l'état 41
 
 
 État 17
 
-    5 Declarations: Declaration . Declarations
-    6             | Declaration .
+    3 Code: Declarations . Instructions
+    4     | Declarations .
 
-    tCONST  décalage et aller à l'état 7
-    tINT    décalage et aller à l'état 8
+    tOP      décalage et aller à l'état 10
+    tPRINT   décalage et aller à l'état 11
+    tIF      décalage et aller à l'état 12
+    tWHILE   décalage et aller à l'état 13
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 15
 
-    $défaut  réduction par utilisation de la règle 6 (Declarations)
+    $défaut  réduction par utilisation de la règle 4 (Code)
 
-    Declarations  aller à l'état 42
-    Declaration   aller à l'état 17
+    Instructions  aller à l'état 42
+    Instruction   aller à l'état 20
+    Calcul        aller à l'état 21
+    Expr          aller à l'état 22
+    Mul           aller à l'état 23
+    Add           aller à l'état 24
+    Sub           aller à l'état 25
+    Div           aller à l'état 26
+    Terme         aller à l'état 27
+    Func          aller à l'état 28
+    Bloc          aller à l'état 29
+    Print         aller à l'état 30
+    If            aller à l'état 31
+    While         aller à l'état 32
 
 
 État 18
 
-    4 Code: Instructions .
+    6 Declarations: Declaration . Declarations
+    7             | Declaration .
 
-    $défaut  réduction par utilisation de la règle 4 (Code)
+    tCONST  décalage et aller à l'état 8
+    tINT    décalage et aller à l'état 9
+
+    $défaut  réduction par utilisation de la règle 7 (Declarations)
+
+    Declarations  aller à l'état 43
+    Declaration   aller à l'état 18
 
 
 État 19
 
-   15 Instructions: Instruction . Instructions
-   16             | Instruction .
+    5 Code: Instructions .
 
-    tOP      décalage et aller à l'état 9
-    tPRINT   décalage et aller à l'état 10
-    tIF      décalage et aller à l'état 11
-    tWHILE   décalage et aller à l'état 12
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 14
-
-    $défaut  réduction par utilisation de la règle 16 (Instructions)
-
-    Instructions  aller à l'état 43
-    Instruction   aller à l'état 19
-    Calcul        aller à l'état 20
-    Expr          aller à l'état 21
-    Mul           aller à l'état 22
-    Add           aller à l'état 23
-    Sub           aller à l'état 24
-    Div           aller à l'état 25
-    Terme         aller à l'état 26
-    Func          aller à l'état 27
-    Bloc          aller à l'état 28
-    Print         aller à l'état 29
-    If            aller à l'état 30
-    While         aller à l'état 31
+    $défaut  réduction par utilisation de la règle 5 (Code)
 
 
 État 20
 
-   17 Instruction: Calcul .
+   16 Instructions: Instruction . Instructions
+   17             | Instruction .
 
-    $défaut  réduction par utilisation de la règle 17 (Instruction)
+    tOP      décalage et aller à l'état 10
+    tPRINT   décalage et aller à l'état 11
+    tIF      décalage et aller à l'état 12
+    tWHILE   décalage et aller à l'état 13
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 15
+
+    $défaut  réduction par utilisation de la règle 17 (Instructions)
+
+    Instructions  aller à l'état 44
+    Instruction   aller à l'état 20
+    Calcul        aller à l'état 21
+    Expr          aller à l'état 22
+    Mul           aller à l'état 23
+    Add           aller à l'état 24
+    Sub           aller à l'état 25
+    Div           aller à l'état 26
+    Terme         aller à l'état 27
+    Func          aller à l'état 28
+    Bloc          aller à l'état 29
+    Print         aller à l'état 30
+    If            aller à l'état 31
+    While         aller à l'état 32
 
 
 État 21
 
-   20 Calcul: Expr . tSEMI
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
+   18 Instruction: Calcul .
 
-    tADD   décalage et aller à l'état 44
-    tSUB   décalage et aller à l'état 45
-    tMUL   décalage et aller à l'état 46
-    tDIV   décalage et aller à l'état 47
-    tSEMI  décalage et aller à l'état 48
+    $défaut  réduction par utilisation de la règle 18 (Instruction)
 
 
 État 22
 
-   22 Expr: Mul .
+   21 Calcul: Expr . tSEMI
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
 
-    $défaut  réduction par utilisation de la règle 22 (Expr)
+    tADD   décalage et aller à l'état 45
+    tSUB   décalage et aller à l'état 46
+    tMUL   décalage et aller à l'état 47
+    tDIV   décalage et aller à l'état 48
+    tSEMI  décalage et aller à l'état 49
 
 
 État 23
 
-   23 Expr: Add .
+   23 Expr: Mul .
 
     $défaut  réduction par utilisation de la règle 23 (Expr)
 
 
 État 24
 
-   24 Expr: Sub .
+   24 Expr: Add .
 
     $défaut  réduction par utilisation de la règle 24 (Expr)
 
 
 État 25
 
-   25 Expr: Div .
+   25 Expr: Sub .
 
     $défaut  réduction par utilisation de la règle 25 (Expr)
 
 
 État 26
 
-   26 Expr: Terme .
+   26 Expr: Div .
 
     $défaut  réduction par utilisation de la règle 26 (Expr)
 
 
 État 27
 
-   18 Instruction: Func .
+   27 Expr: Terme .
 
-    $défaut  réduction par utilisation de la règle 18 (Instruction)
+    $défaut  réduction par utilisation de la règle 27 (Expr)
 
 
 État 28
 
-   19 Instruction: Bloc .
+   19 Instruction: Func .
 
     $défaut  réduction par utilisation de la règle 19 (Instruction)
 
 
 État 29
 
-   34 Func: Print . tSEMI
+   20 Instruction: Bloc .
 
-    tSEMI  décalage et aller à l'état 49
+    $défaut  réduction par utilisation de la règle 20 (Instruction)
 
 
 État 30
 
-   35 Bloc: If .
-   36     | If . Else
-   37     | If . ElseIf
+   35 Func: Print . tSEMI
 
-    tELSE  décalage et aller à l'état 50
-
-    $défaut  réduction par utilisation de la règle 35 (Bloc)
-
-    Else    aller à l'état 51
-    ElseIf  aller à l'état 52
+    tSEMI  décalage et aller à l'état 50
 
 
 État 31
 
-   38 Bloc: While .
+   36 Bloc: If .
+   37     | If . Else
+   38     | If . ElseIf
 
-    $défaut  réduction par utilisation de la règle 38 (Bloc)
+    tELSE  décalage et aller à l'état 51
+
+    $défaut  réduction par utilisation de la règle 36 (Bloc)
+
+    Else    aller à l'état 52
+    ElseIf  aller à l'état 53
 
 
 État 32
 
-    8 Declaration: tCONST $@1 . Variables tSEMI
+   39 Bloc: While .
 
-    tID  décalage et aller à l'état 53
-
-    Variables  aller à l'état 54
+    $défaut  réduction par utilisation de la règle 39 (Bloc)
 
 
 État 33
 
-   10 Declaration: tINT $@2 . Variables tSEMI
+    9 Declaration: tCONST $@2 . Variables tSEMI
 
-    tID  décalage et aller à l'état 53
+    tID  décalage et aller à l'état 54
 
     Variables  aller à l'état 55
 
 
 État 34
 
-   32 Terme: tID .
+   11 Declaration: tINT $@3 . Variables tSEMI
 
-    $défaut  réduction par utilisation de la règle 32 (Terme)
+    tID  décalage et aller à l'état 54
+
+    Variables  aller à l'état 56
 
 
 État 35
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
-   31 Terme: tOP Expr . tCP
+   33 Terme: tID .
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
-    tCP   décalage et aller à l'état 56
+    $défaut  réduction par utilisation de la règle 33 (Terme)
 
 
 État 36
 
-   40 Print: tPRINT tOP . tID $@4 tCP
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
+   32 Terme: tOP Expr . tCP
 
-    tID  décalage et aller à l'état 57
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
+    tCP   décalage et aller à l'état 57
 
 
 État 37
 
-   42 If: tIF tOP . Cond tCP tOB $@5 Code tCB
+   41 Print: tPRINT tOP . tID $@5 tCP
 
-    tOP      décalage et aller à l'état 58
-    tNOT     décalage et aller à l'état 59
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
-
-    Expr      aller à l'état 60
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    Cond      aller à l'état 61
-    Inf       aller à l'état 62
-    Sup       aller à l'état 63
-    Eq        aller à l'état 64
-    InfEq     aller à l'état 65
-    SupEq     aller à l'état 66
-    Diff      aller à l'état 67
-    And       aller à l'état 68
-    Or        aller à l'état 69
-    Not       aller à l'état 70
-    CondPart  aller à l'état 71
+    tID  décalage et aller à l'état 58
 
 
 État 38
 
-   70 While: tWHILE tOP . Cond tCP tOB $@7 Code tCB
+   43 If: tIF tOP . Cond tCP tOB $@6 Code tCB
 
-    tOP      décalage et aller à l'état 58
-    tNOT     décalage et aller à l'état 59
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 59
+    tNOT     décalage et aller à l'état 60
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    Expr      aller à l'état 60
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    Cond      aller à l'état 72
-    Inf       aller à l'état 62
-    Sup       aller à l'état 63
-    Eq        aller à l'état 64
-    InfEq     aller à l'état 65
-    SupEq     aller à l'état 66
-    Diff      aller à l'état 67
-    And       aller à l'état 68
-    Or        aller à l'état 69
-    Not       aller à l'état 70
-    CondPart  aller à l'état 71
+    Expr      aller à l'état 61
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    Cond      aller à l'état 62
+    Inf       aller à l'état 63
+    Sup       aller à l'état 64
+    Eq        aller à l'état 65
+    InfEq     aller à l'état 66
+    SupEq     aller à l'état 67
+    Diff      aller à l'état 68
+    And       aller à l'état 69
+    Or        aller à l'état 70
+    Not       aller à l'état 71
+    CondPart  aller à l'état 72
 
 
 État 39
 
-   21 Calcul: tID tEQ . Expr tSEMI
+   71 While: tWHILE tOP . Cond tCP tOB $@8 Code tCB
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 59
+    tNOT     décalage et aller à l'état 60
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    Expr   aller à l'état 73
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    Expr      aller à l'état 61
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    Cond      aller à l'état 73
+    Inf       aller à l'état 63
+    Sup       aller à l'état 64
+    Eq        aller à l'état 65
+    InfEq     aller à l'état 66
+    SupEq     aller à l'état 67
+    Diff      aller à l'état 68
+    And       aller à l'état 69
+    Or        aller à l'état 70
+    Not       aller à l'état 71
+    CondPart  aller à l'état 72
 
 
 État 40
 
-    1 Compilator: tMAIN tOP tCP tOB Code tCB .
+   22 Calcul: tID tEQ . Expr tSEMI
 
-    $défaut  réduction par utilisation de la règle 1 (Compilator)
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr   aller à l'état 74
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 41
 
-    2 Code: Declarations Instructions .
+    2 Compilator: tMAIN $@1 tOP tCP tOB Code tCB .
 
-    $défaut  réduction par utilisation de la règle 2 (Code)
+    $défaut  réduction par utilisation de la règle 2 (Compilator)
 
 
 État 42
 
-    5 Declarations: Declaration Declarations .
+    3 Code: Declarations Instructions .
 
-    $défaut  réduction par utilisation de la règle 5 (Declarations)
+    $défaut  réduction par utilisation de la règle 3 (Code)
 
 
 État 43
 
-   15 Instructions: Instruction Instructions .
+    6 Declarations: Declaration Declarations .
 
-    $défaut  réduction par utilisation de la règle 15 (Instructions)
+    $défaut  réduction par utilisation de la règle 6 (Declarations)
 
 
 État 44
 
-   28 Add: Expr tADD . Expr
+   16 Instructions: Instruction Instructions .
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
-
-    Expr   aller à l'état 74
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    $défaut  réduction par utilisation de la règle 16 (Instructions)
 
 
 État 45
 
-   29 Sub: Expr tSUB . Expr
+   29 Add: Expr tADD . Expr
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
     Expr   aller à l'état 75
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 46
 
-   27 Mul: Expr tMUL . Expr
+   30 Sub: Expr tSUB . Expr
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
     Expr   aller à l'état 76
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 47
 
-   30 Div: Expr tDIV . Expr
+   28 Mul: Expr tMUL . Expr
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
     Expr   aller à l'état 77
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 48
 
-   20 Calcul: Expr tSEMI .
+   31 Div: Expr tDIV . Expr
 
-    $défaut  réduction par utilisation de la règle 20 (Calcul)
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr   aller à l'état 78
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 49
 
-   34 Func: Print tSEMI .
+   21 Calcul: Expr tSEMI .
 
-    $défaut  réduction par utilisation de la règle 34 (Func)
+    $défaut  réduction par utilisation de la règle 21 (Calcul)
 
 
 État 50
 
-   44 Else: tELSE . tOB $@6 Code tCB
-   45 ElseIf: tELSE . If
-   46       | tELSE . If ElseIf
-   47       | tELSE . If Else
+   35 Func: Print tSEMI .
 
-    tOB  décalage et aller à l'état 78
-    tIF  décalage et aller à l'état 11
-
-    If  aller à l'état 79
+    $défaut  réduction par utilisation de la règle 35 (Func)
 
 
 État 51
 
-   36 Bloc: If Else .
+   45 Else: tELSE . tOB $@7 Code tCB
+   46 ElseIf: tELSE . If
+   47       | tELSE . If ElseIf
+   48       | tELSE . If Else
 
-    $défaut  réduction par utilisation de la règle 36 (Bloc)
+    tOB  décalage et aller à l'état 79
+    tIF  décalage et aller à l'état 12
+
+    If  aller à l'état 80
 
 
 État 52
 
-   37 Bloc: If ElseIf .
+   37 Bloc: If Else .
 
     $défaut  réduction par utilisation de la règle 37 (Bloc)
 
 
 État 53
 
-   11 Variables: tID .
-   13          | tID . $@3 tCOMMA Variables
-   14          | tID . tEQ Expr
+   38 Bloc: If ElseIf .
 
-    tEQ  décalage et aller à l'état 80
-
-    tCOMMA    réduction par utilisation de la règle 12 ($@3)
-    $défaut  réduction par utilisation de la règle 11 (Variables)
-
-    $@3  aller à l'état 81
+    $défaut  réduction par utilisation de la règle 38 (Bloc)
 
 
 État 54
 
-    8 Declaration: tCONST $@1 Variables . tSEMI
+   12 Variables: tID .
+   14          | tID . $@4 tCOMMA Variables
+   15          | tID . tEQ Expr
 
-    tSEMI  décalage et aller à l'état 82
+    tEQ  décalage et aller à l'état 81
+
+    tCOMMA    réduction par utilisation de la règle 13 ($@4)
+    $défaut  réduction par utilisation de la règle 12 (Variables)
+
+    $@4  aller à l'état 82
 
 
 État 55
 
-   10 Declaration: tINT $@2 Variables . tSEMI
+    9 Declaration: tCONST $@2 Variables . tSEMI
 
     tSEMI  décalage et aller à l'état 83
 
 
 État 56
 
-   31 Terme: tOP Expr tCP .
+   11 Declaration: tINT $@3 Variables . tSEMI
 
-    $défaut  réduction par utilisation de la règle 31 (Terme)
+    tSEMI  décalage et aller à l'état 84
 
 
 État 57
 
-   40 Print: tPRINT tOP tID . $@4 tCP
+   32 Terme: tOP Expr tCP .
 
-    $défaut  réduction par utilisation de la règle 39 ($@4)
-
-    $@4  aller à l'état 84
+    $défaut  réduction par utilisation de la règle 32 (Terme)
 
 
 État 58
 
-   31 Terme: tOP . Expr tCP
-   68 CondPart: tOP . Cond tCP
+   41 Print: tPRINT tOP tID . $@5 tCP
 
-    tOP      décalage et aller à l'état 58
-    tNOT     décalage et aller à l'état 59
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    $défaut  réduction par utilisation de la règle 40 ($@5)
 
-    Expr      aller à l'état 85
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    Cond      aller à l'état 86
-    Inf       aller à l'état 62
-    Sup       aller à l'état 63
-    Eq        aller à l'état 64
-    InfEq     aller à l'état 65
-    SupEq     aller à l'état 66
-    Diff      aller à l'état 67
-    And       aller à l'état 68
-    Or        aller à l'état 69
-    Not       aller à l'état 70
-    CondPart  aller à l'état 71
+    $@5  aller à l'état 85
 
 
 État 59
 
-   66 Not: tNOT . CondPart
+   32 Terme: tOP . Expr tCP
+   69 CondPart: tOP . Cond tCP
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 59
+    tNOT     décalage et aller à l'état 60
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 88
+    Expr      aller à l'état 86
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    Cond      aller à l'état 87
+    Inf       aller à l'état 63
+    Sup       aller à l'état 64
+    Eq        aller à l'état 65
+    InfEq     aller à l'état 66
+    SupEq     aller à l'état 67
+    Diff      aller à l'état 68
+    And       aller à l'état 69
+    Or        aller à l'état 70
+    Not       aller à l'état 71
+    CondPart  aller à l'état 72
 
 
 État 60
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
-   57 Cond: Expr .
-   67 CondPart: Expr .
+   67 Not: tNOT . CondPart
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    tCP       réduction par utilisation de la règle 57 (Cond)
-    $défaut  réduction par utilisation de la règle 67 (CondPart)
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 89
 
 
 État 61
 
-   42 If: tIF tOP Cond . tCP tOB $@5 Code tCB
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
+   58 Cond: Expr .
+   68 CondPart: Expr .
 
-    tCP  décalage et aller à l'état 89
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
+
+    tCP       réduction par utilisation de la règle 58 (Cond)
+    $défaut  réduction par utilisation de la règle 68 (CondPart)
 
 
 État 62
 
-   48 Cond: Inf .
+   43 If: tIF tOP Cond . tCP tOB $@6 Code tCB
 
-    $défaut  réduction par utilisation de la règle 48 (Cond)
+    tCP  décalage et aller à l'état 90
 
 
 État 63
 
-   49 Cond: Sup .
+   49 Cond: Inf .
 
     $défaut  réduction par utilisation de la règle 49 (Cond)
 
 
 État 64
 
-   50 Cond: Eq .
+   50 Cond: Sup .
 
     $défaut  réduction par utilisation de la règle 50 (Cond)
 
 
 État 65
 
-   51 Cond: InfEq .
+   51 Cond: Eq .
 
     $défaut  réduction par utilisation de la règle 51 (Cond)
 
 
 État 66
 
-   52 Cond: SupEq .
+   52 Cond: InfEq .
 
     $défaut  réduction par utilisation de la règle 52 (Cond)
 
 
 État 67
 
-   53 Cond: Diff .
+   53 Cond: SupEq .
 
     $défaut  réduction par utilisation de la règle 53 (Cond)
 
 
 État 68
 
-   54 Cond: And .
+   54 Cond: Diff .
 
     $défaut  réduction par utilisation de la règle 54 (Cond)
 
 
 État 69
 
-   55 Cond: Or .
+   55 Cond: And .
 
     $défaut  réduction par utilisation de la règle 55 (Cond)
 
 
 État 70
 
-   56 Cond: Not .
+   56 Cond: Or .
 
     $défaut  réduction par utilisation de la règle 56 (Cond)
 
 
 État 71
 
-   58 Inf: CondPart . tINF CondPart
-   59 Sup: CondPart . tSUP CondPart
-   60 Eq: CondPart . tEQ tEQ CondPart
-   61 InfEq: CondPart . tINF tEQ CondPart
-   62 SupEq: CondPart . tSUP tEQ CondPart
-   63 Diff: CondPart . tNOT tEQ CondPart
-   64 And: CondPart . tAND CondPart
-   65 Or: CondPart . tOR CondPart
+   57 Cond: Not .
 
-    tEQ   décalage et aller à l'état 90
-    tSUP  décalage et aller à l'état 91
-    tINF  décalage et aller à l'état 92
-    tNOT  décalage et aller à l'état 93
-    tAND  décalage et aller à l'état 94
-    tOR   décalage et aller à l'état 95
+    $défaut  réduction par utilisation de la règle 57 (Cond)
 
 
 État 72
 
-   70 While: tWHILE tOP Cond . tCP tOB $@7 Code tCB
+   59 Inf: CondPart . tINF CondPart
+   60 Sup: CondPart . tSUP CondPart
+   61 Eq: CondPart . tEQ tEQ CondPart
+   62 InfEq: CondPart . tINF tEQ CondPart
+   63 SupEq: CondPart . tSUP tEQ CondPart
+   64 Diff: CondPart . tNOT tEQ CondPart
+   65 And: CondPart . tAND CondPart
+   66 Or: CondPart . tOR CondPart
 
-    tCP  décalage et aller à l'état 96
+    tEQ   décalage et aller à l'état 91
+    tSUP  décalage et aller à l'état 92
+    tINF  décalage et aller à l'état 93
+    tNOT  décalage et aller à l'état 94
+    tAND  décalage et aller à l'état 95
+    tOR   décalage et aller à l'état 96
 
 
 État 73
 
-   21 Calcul: tID tEQ Expr . tSEMI
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
+   71 While: tWHILE tOP Cond . tCP tOB $@8 Code tCB
 
-    tADD   décalage et aller à l'état 44
-    tSUB   décalage et aller à l'état 45
-    tMUL   décalage et aller à l'état 46
-    tDIV   décalage et aller à l'état 47
-    tSEMI  décalage et aller à l'état 97
+    tCP  décalage et aller à l'état 97
 
 
 État 74
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   28    | Expr tADD Expr .
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
+   22 Calcul: tID tEQ Expr . tSEMI
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
-
-    tADD      [réduction par utilisation de la règle 28 (Add)]
-    tSUB      [réduction par utilisation de la règle 28 (Add)]
-    tMUL      [réduction par utilisation de la règle 28 (Add)]
-    tDIV      [réduction par utilisation de la règle 28 (Add)]
-    $défaut  réduction par utilisation de la règle 28 (Add)
+    tADD   décalage et aller à l'état 45
+    tSUB   décalage et aller à l'état 46
+    tMUL   décalage et aller à l'état 47
+    tDIV   décalage et aller à l'état 48
+    tSEMI  décalage et aller à l'état 98
 
 
 État 75
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   29    | Expr tSUB Expr .
-   30 Div: Expr . tDIV Expr
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   29    | Expr tADD Expr .
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
 
-    tADD      [réduction par utilisation de la règle 29 (Sub)]
-    tSUB      [réduction par utilisation de la règle 29 (Sub)]
-    tMUL      [réduction par utilisation de la règle 29 (Sub)]
-    tDIV      [réduction par utilisation de la règle 29 (Sub)]
-    $défaut  réduction par utilisation de la règle 29 (Sub)
+    tADD      [réduction par utilisation de la règle 29 (Add)]
+    tSUB      [réduction par utilisation de la règle 29 (Add)]
+    tMUL      [réduction par utilisation de la règle 29 (Add)]
+    tDIV      [réduction par utilisation de la règle 29 (Add)]
+    $défaut  réduction par utilisation de la règle 29 (Add)
 
 
 État 76
 
-   27 Mul: Expr . tMUL Expr
-   27    | Expr tMUL Expr .
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   30    | Expr tSUB Expr .
+   31 Div: Expr . tDIV Expr
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
 
-    tADD      [réduction par utilisation de la règle 27 (Mul)]
-    tSUB      [réduction par utilisation de la règle 27 (Mul)]
-    tMUL      [réduction par utilisation de la règle 27 (Mul)]
-    tDIV      [réduction par utilisation de la règle 27 (Mul)]
-    $défaut  réduction par utilisation de la règle 27 (Mul)
+    tADD      [réduction par utilisation de la règle 30 (Sub)]
+    tSUB      [réduction par utilisation de la règle 30 (Sub)]
+    tMUL      [réduction par utilisation de la règle 30 (Sub)]
+    tDIV      [réduction par utilisation de la règle 30 (Sub)]
+    $défaut  réduction par utilisation de la règle 30 (Sub)
 
 
 État 77
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
-   30    | Expr tDIV Expr .
+   28 Mul: Expr . tMUL Expr
+   28    | Expr tMUL Expr .
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
 
-    tADD      [réduction par utilisation de la règle 30 (Div)]
-    tSUB      [réduction par utilisation de la règle 30 (Div)]
-    tMUL      [réduction par utilisation de la règle 30 (Div)]
-    tDIV      [réduction par utilisation de la règle 30 (Div)]
-    $défaut  réduction par utilisation de la règle 30 (Div)
+    tADD      [réduction par utilisation de la règle 28 (Mul)]
+    tSUB      [réduction par utilisation de la règle 28 (Mul)]
+    tMUL      [réduction par utilisation de la règle 28 (Mul)]
+    tDIV      [réduction par utilisation de la règle 28 (Mul)]
+    $défaut  réduction par utilisation de la règle 28 (Mul)
 
 
 État 78
 
-   44 Else: tELSE tOB . $@6 Code tCB
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
+   31    | Expr tDIV Expr .
 
-    $défaut  réduction par utilisation de la règle 43 ($@6)
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
 
-    $@6  aller à l'état 98
+    tADD      [réduction par utilisation de la règle 31 (Div)]
+    tSUB      [réduction par utilisation de la règle 31 (Div)]
+    tMUL      [réduction par utilisation de la règle 31 (Div)]
+    tDIV      [réduction par utilisation de la règle 31 (Div)]
+    $défaut  réduction par utilisation de la règle 31 (Div)
 
 
 État 79
 
-   45 ElseIf: tELSE If .
-   46       | tELSE If . ElseIf
-   47       | tELSE If . Else
+   45 Else: tELSE tOB . $@7 Code tCB
 
-    tELSE  décalage et aller à l'état 50
+    $défaut  réduction par utilisation de la règle 44 ($@7)
 
-    $défaut  réduction par utilisation de la règle 45 (ElseIf)
-
-    Else    aller à l'état 99
-    ElseIf  aller à l'état 100
+    $@7  aller à l'état 99
 
 
 État 80
 
-   14 Variables: tID tEQ . Expr
+   46 ElseIf: tELSE If .
+   47       | tELSE If . ElseIf
+   48       | tELSE If . Else
 
-    tOP      décalage et aller à l'état 9
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tELSE  décalage et aller à l'état 51
 
-    Expr   aller à l'état 101
-    Mul    aller à l'état 22
-    Add    aller à l'état 23
-    Sub    aller à l'état 24
-    Div    aller à l'état 25
-    Terme  aller à l'état 26
+    $défaut  réduction par utilisation de la règle 46 (ElseIf)
+
+    Else    aller à l'état 100
+    ElseIf  aller à l'état 101
 
 
 État 81
 
-   13 Variables: tID $@3 . tCOMMA Variables
+   15 Variables: tID tEQ . Expr
 
-    tCOMMA  décalage et aller à l'état 102
+    tOP      décalage et aller à l'état 10
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr   aller à l'état 102
+    Mul    aller à l'état 23
+    Add    aller à l'état 24
+    Sub    aller à l'état 25
+    Div    aller à l'état 26
+    Terme  aller à l'état 27
 
 
 État 82
 
-    8 Declaration: tCONST $@1 Variables tSEMI .
+   14 Variables: tID $@4 . tCOMMA Variables
 
-    $défaut  réduction par utilisation de la règle 8 (Declaration)
+    tCOMMA  décalage et aller à l'état 103
 
 
 État 83
 
-   10 Declaration: tINT $@2 Variables tSEMI .
+    9 Declaration: tCONST $@2 Variables tSEMI .
 
-    $défaut  réduction par utilisation de la règle 10 (Declaration)
+    $défaut  réduction par utilisation de la règle 9 (Declaration)
 
 
 État 84
 
-   40 Print: tPRINT tOP tID $@4 . tCP
+   11 Declaration: tINT $@3 Variables tSEMI .
 
-    tCP  décalage et aller à l'état 103
+    $défaut  réduction par utilisation de la règle 11 (Declaration)
 
 
 État 85
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
-   31 Terme: tOP Expr . tCP
-   57 Cond: Expr .
-   67 CondPart: Expr .
-
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
-    tCP   décalage et aller à l'état 56
-
-    tCP       [réduction par utilisation de la règle 57 (Cond)]
-    $défaut  réduction par utilisation de la règle 67 (CondPart)
-
-
-État 86
-
-   68 CondPart: tOP Cond . tCP
+   41 Print: tPRINT tOP tID $@5 . tCP
 
     tCP  décalage et aller à l'état 104
 
 
+État 86
+
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
+   32 Terme: tOP Expr . tCP
+   58 Cond: Expr .
+   68 CondPart: Expr .
+
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
+    tCP   décalage et aller à l'état 57
+
+    tCP       [réduction par utilisation de la règle 58 (Cond)]
+    $défaut  réduction par utilisation de la règle 68 (CondPart)
+
+
 État 87
 
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
-   67 CondPart: Expr .
+   69 CondPart: tOP Cond . tCP
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
-
-    $défaut  réduction par utilisation de la règle 67 (CondPart)
+    tCP  décalage et aller à l'état 105
 
 
 État 88
 
-   66 Not: tNOT CondPart .
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
+   68 CondPart: Expr .
 
-    $défaut  réduction par utilisation de la règle 66 (Not)
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 68 (CondPart)
 
 
 État 89
 
-   42 If: tIF tOP Cond tCP . tOB $@5 Code tCB
+   67 Not: tNOT CondPart .
 
-    tOB  décalage et aller à l'état 105
+    $défaut  réduction par utilisation de la règle 67 (Not)
 
 
 État 90
 
-   60 Eq: CondPart tEQ . tEQ CondPart
+   43 If: tIF tOP Cond tCP . tOB $@6 Code tCB
 
-    tEQ  décalage et aller à l'état 106
+    tOB  décalage et aller à l'état 106
 
 
 État 91
 
-   59 Sup: CondPart tSUP . CondPart
-   62 SupEq: CondPart tSUP . tEQ CondPart
+   61 Eq: CondPart tEQ . tEQ CondPart
 
-    tEQ      décalage et aller à l'état 107
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
-
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 108
+    tEQ  décalage et aller à l'état 107
 
 
 État 92
 
-   58 Inf: CondPart tINF . CondPart
-   61 InfEq: CondPart tINF . tEQ CondPart
+   60 Sup: CondPart tSUP . CondPart
+   63 SupEq: CondPart tSUP . tEQ CondPart
 
-    tEQ      décalage et aller à l'état 109
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tEQ      décalage et aller à l'état 108
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 110
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 109
 
 
 État 93
 
-   63 Diff: CondPart tNOT . tEQ CondPart
+   59 Inf: CondPart tINF . CondPart
+   62 InfEq: CondPart tINF . tEQ CondPart
 
-    tEQ  décalage et aller à l'état 111
+    tEQ      décalage et aller à l'état 110
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 111
 
 
 État 94
 
-   64 And: CondPart tAND . CondPart
+   64 Diff: CondPart tNOT . tEQ CondPart
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
-
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 112
+    tEQ  décalage et aller à l'état 112
 
 
 État 95
 
-   65 Or: CondPart tOR . CondPart
+   65 And: CondPart tAND . CondPart
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
     CondPart  aller à l'état 113
 
 
 État 96
 
-   70 While: tWHILE tOP Cond tCP . tOB $@7 Code tCB
+   66 Or: CondPart tOR . CondPart
 
-    tOB  décalage et aller à l'état 114
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 114
 
 
 État 97
 
-   21 Calcul: tID tEQ Expr tSEMI .
+   71 While: tWHILE tOP Cond tCP . tOB $@8 Code tCB
 
-    $défaut  réduction par utilisation de la règle 21 (Calcul)
+    tOB  décalage et aller à l'état 115
 
 
 État 98
 
-   44 Else: tELSE tOB $@6 . Code tCB
+   22 Calcul: tID tEQ Expr tSEMI .
 
-    tCONST   décalage et aller à l'état 7
-    tINT     décalage et aller à l'état 8
-    tOP      décalage et aller à l'état 9
-    tPRINT   décalage et aller à l'état 10
-    tIF      décalage et aller à l'état 11
-    tWHILE   décalage et aller à l'état 12
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 14
-
-    Code          aller à l'état 115
-    Declarations  aller à l'état 16
-    Declaration   aller à l'état 17
-    Instructions  aller à l'état 18
-    Instruction   aller à l'état 19
-    Calcul        aller à l'état 20
-    Expr          aller à l'état 21
-    Mul           aller à l'état 22
-    Add           aller à l'état 23
-    Sub           aller à l'état 24
-    Div           aller à l'état 25
-    Terme         aller à l'état 26
-    Func          aller à l'état 27
-    Bloc          aller à l'état 28
-    Print         aller à l'état 29
-    If            aller à l'état 30
-    While         aller à l'état 31
+    $défaut  réduction par utilisation de la règle 22 (Calcul)
 
 
 État 99
 
-   47 ElseIf: tELSE If Else .
+   45 Else: tELSE tOB $@7 . Code tCB
 
-    $défaut  réduction par utilisation de la règle 47 (ElseIf)
+    tCONST   décalage et aller à l'état 8
+    tINT     décalage et aller à l'état 9
+    tOP      décalage et aller à l'état 10
+    tPRINT   décalage et aller à l'état 11
+    tIF      décalage et aller à l'état 12
+    tWHILE   décalage et aller à l'état 13
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 15
+
+    Code          aller à l'état 116
+    Declarations  aller à l'état 17
+    Declaration   aller à l'état 18
+    Instructions  aller à l'état 19
+    Instruction   aller à l'état 20
+    Calcul        aller à l'état 21
+    Expr          aller à l'état 22
+    Mul           aller à l'état 23
+    Add           aller à l'état 24
+    Sub           aller à l'état 25
+    Div           aller à l'état 26
+    Terme         aller à l'état 27
+    Func          aller à l'état 28
+    Bloc          aller à l'état 29
+    Print         aller à l'état 30
+    If            aller à l'état 31
+    While         aller à l'état 32
 
 
 État 100
 
-   46 ElseIf: tELSE If ElseIf .
+   48 ElseIf: tELSE If Else .
 
-    $défaut  réduction par utilisation de la règle 46 (ElseIf)
+    $défaut  réduction par utilisation de la règle 48 (ElseIf)
 
 
 État 101
 
-   14 Variables: tID tEQ Expr .
-   27 Mul: Expr . tMUL Expr
-   28 Add: Expr . tADD Expr
-   29 Sub: Expr . tSUB Expr
-   30 Div: Expr . tDIV Expr
+   47 ElseIf: tELSE If ElseIf .
 
-    tADD  décalage et aller à l'état 44
-    tSUB  décalage et aller à l'état 45
-    tMUL  décalage et aller à l'état 46
-    tDIV  décalage et aller à l'état 47
-
-    $défaut  réduction par utilisation de la règle 14 (Variables)
+    $défaut  réduction par utilisation de la règle 47 (ElseIf)
 
 
 État 102
 
-   13 Variables: tID $@3 tCOMMA . Variables
+   15 Variables: tID tEQ Expr .
+   28 Mul: Expr . tMUL Expr
+   29 Add: Expr . tADD Expr
+   30 Sub: Expr . tSUB Expr
+   31 Div: Expr . tDIV Expr
 
-    tID  décalage et aller à l'état 53
+    tADD  décalage et aller à l'état 45
+    tSUB  décalage et aller à l'état 46
+    tMUL  décalage et aller à l'état 47
+    tDIV  décalage et aller à l'état 48
 
-    Variables  aller à l'état 116
+    $défaut  réduction par utilisation de la règle 15 (Variables)
 
 
 État 103
 
-   40 Print: tPRINT tOP tID $@4 tCP .
+   14 Variables: tID $@4 tCOMMA . Variables
 
-    $défaut  réduction par utilisation de la règle 40 (Print)
+    tID  décalage et aller à l'état 54
+
+    Variables  aller à l'état 117
 
 
 État 104
 
-   68 CondPart: tOP Cond tCP .
+   41 Print: tPRINT tOP tID $@5 tCP .
 
-    $défaut  réduction par utilisation de la règle 68 (CondPart)
+    $défaut  réduction par utilisation de la règle 41 (Print)
 
 
 État 105
 
-   42 If: tIF tOP Cond tCP tOB . $@5 Code tCB
+   69 CondPart: tOP Cond tCP .
 
-    $défaut  réduction par utilisation de la règle 41 ($@5)
-
-    $@5  aller à l'état 117
+    $défaut  réduction par utilisation de la règle 69 (CondPart)
 
 
 État 106
 
-   60 Eq: CondPart tEQ tEQ . CondPart
+   43 If: tIF tOP Cond tCP tOB . $@6 Code tCB
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    $défaut  réduction par utilisation de la règle 42 ($@6)
 
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 118
+    $@6  aller à l'état 118
 
 
 État 107
 
-   62 SupEq: CondPart tSUP tEQ . CondPart
+   61 Eq: CondPart tEQ tEQ . CondPart
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
 
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
     CondPart  aller à l'état 119
 
 
 État 108
 
-   59 Sup: CondPart tSUP CondPart .
+   63 SupEq: CondPart tSUP tEQ . CondPart
 
-    $défaut  réduction par utilisation de la règle 59 (Sup)
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 120
 
 
 État 109
 
-   61 InfEq: CondPart tINF tEQ . CondPart
+   60 Sup: CondPart tSUP CondPart .
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
-
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 120
+    $défaut  réduction par utilisation de la règle 60 (Sup)
 
 
 État 110
 
-   58 Inf: CondPart tINF CondPart .
+   62 InfEq: CondPart tINF tEQ . CondPart
 
-    $défaut  réduction par utilisation de la règle 58 (Inf)
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 121
 
 
 État 111
 
-   63 Diff: CondPart tNOT tEQ . CondPart
+   59 Inf: CondPart tINF CondPart .
 
-    tOP      décalage et aller à l'état 58
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 34
-
-    Expr      aller à l'état 87
-    Mul       aller à l'état 22
-    Add       aller à l'état 23
-    Sub       aller à l'état 24
-    Div       aller à l'état 25
-    Terme     aller à l'état 26
-    CondPart  aller à l'état 121
+    $défaut  réduction par utilisation de la règle 59 (Inf)
 
 
 État 112
 
-   64 And: CondPart tAND CondPart .
+   64 Diff: CondPart tNOT tEQ . CondPart
 
-    $défaut  réduction par utilisation de la règle 64 (And)
+    tOP      décalage et aller à l'état 59
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 35
+
+    Expr      aller à l'état 88
+    Mul       aller à l'état 23
+    Add       aller à l'état 24
+    Sub       aller à l'état 25
+    Div       aller à l'état 26
+    Terme     aller à l'état 27
+    CondPart  aller à l'état 122
 
 
 État 113
 
-   65 Or: CondPart tOR CondPart .
+   65 And: CondPart tAND CondPart .
 
-    $défaut  réduction par utilisation de la règle 65 (Or)
+    $défaut  réduction par utilisation de la règle 65 (And)
 
 
 État 114
 
-   70 While: tWHILE tOP Cond tCP tOB . $@7 Code tCB
+   66 Or: CondPart tOR CondPart .
 
-    $défaut  réduction par utilisation de la règle 69 ($@7)
-
-    $@7  aller à l'état 122
+    $défaut  réduction par utilisation de la règle 66 (Or)
 
 
 État 115
 
-   44 Else: tELSE tOB $@6 Code . tCB
+   71 While: tWHILE tOP Cond tCP tOB . $@8 Code tCB
 
-    tCB  décalage et aller à l'état 123
+    $défaut  réduction par utilisation de la règle 70 ($@8)
+
+    $@8  aller à l'état 123
 
 
 État 116
 
-   13 Variables: tID $@3 tCOMMA Variables .
+   45 Else: tELSE tOB $@7 Code . tCB
 
-    $défaut  réduction par utilisation de la règle 13 (Variables)
+    tCB  décalage et aller à l'état 124
 
 
 État 117
 
-   42 If: tIF tOP Cond tCP tOB $@5 . Code tCB
+   14 Variables: tID $@4 tCOMMA Variables .
 
-    tCONST   décalage et aller à l'état 7
-    tINT     décalage et aller à l'état 8
-    tOP      décalage et aller à l'état 9
-    tPRINT   décalage et aller à l'état 10
-    tIF      décalage et aller à l'état 11
-    tWHILE   décalage et aller à l'état 12
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 14
-
-    Code          aller à l'état 124
-    Declarations  aller à l'état 16
-    Declaration   aller à l'état 17
-    Instructions  aller à l'état 18
-    Instruction   aller à l'état 19
-    Calcul        aller à l'état 20
-    Expr          aller à l'état 21
-    Mul           aller à l'état 22
-    Add           aller à l'état 23
-    Sub           aller à l'état 24
-    Div           aller à l'état 25
-    Terme         aller à l'état 26
-    Func          aller à l'état 27
-    Bloc          aller à l'état 28
-    Print         aller à l'état 29
-    If            aller à l'état 30
-    While         aller à l'état 31
+    $défaut  réduction par utilisation de la règle 14 (Variables)
 
 
 État 118
 
-   60 Eq: CondPart tEQ tEQ CondPart .
+   43 If: tIF tOP Cond tCP tOB $@6 . Code tCB
 
-    $défaut  réduction par utilisation de la règle 60 (Eq)
+    tCONST   décalage et aller à l'état 8
+    tINT     décalage et aller à l'état 9
+    tOP      décalage et aller à l'état 10
+    tPRINT   décalage et aller à l'état 11
+    tIF      décalage et aller à l'état 12
+    tWHILE   décalage et aller à l'état 13
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 15
+
+    Code          aller à l'état 125
+    Declarations  aller à l'état 17
+    Declaration   aller à l'état 18
+    Instructions  aller à l'état 19
+    Instruction   aller à l'état 20
+    Calcul        aller à l'état 21
+    Expr          aller à l'état 22
+    Mul           aller à l'état 23
+    Add           aller à l'état 24
+    Sub           aller à l'état 25
+    Div           aller à l'état 26
+    Terme         aller à l'état 27
+    Func          aller à l'état 28
+    Bloc          aller à l'état 29
+    Print         aller à l'état 30
+    If            aller à l'état 31
+    While         aller à l'état 32
 
 
 État 119
 
-   62 SupEq: CondPart tSUP tEQ CondPart .
+   61 Eq: CondPart tEQ tEQ CondPart .
 
-    $défaut  réduction par utilisation de la règle 62 (SupEq)
+    $défaut  réduction par utilisation de la règle 61 (Eq)
 
 
 État 120
 
-   61 InfEq: CondPart tINF tEQ CondPart .
+   63 SupEq: CondPart tSUP tEQ CondPart .
 
-    $défaut  réduction par utilisation de la règle 61 (InfEq)
+    $défaut  réduction par utilisation de la règle 63 (SupEq)
 
 
 État 121
 
-   63 Diff: CondPart tNOT tEQ CondPart .
+   62 InfEq: CondPart tINF tEQ CondPart .
 
-    $défaut  réduction par utilisation de la règle 63 (Diff)
+    $défaut  réduction par utilisation de la règle 62 (InfEq)
 
 
 État 122
 
-   70 While: tWHILE tOP Cond tCP tOB $@7 . Code tCB
+   64 Diff: CondPart tNOT tEQ CondPart .
 
-    tCONST   décalage et aller à l'état 7
-    tINT     décalage et aller à l'état 8
-    tOP      décalage et aller à l'état 9
-    tPRINT   décalage et aller à l'état 10
-    tIF      décalage et aller à l'état 11
-    tWHILE   décalage et aller à l'état 12
-    tINTVAL  décalage et aller à l'état 13
-    tID      décalage et aller à l'état 14
-
-    Code          aller à l'état 125
-    Declarations  aller à l'état 16
-    Declaration   aller à l'état 17
-    Instructions  aller à l'état 18
-    Instruction   aller à l'état 19
-    Calcul        aller à l'état 20
-    Expr          aller à l'état 21
-    Mul           aller à l'état 22
-    Add           aller à l'état 23
-    Sub           aller à l'état 24
-    Div           aller à l'état 25
-    Terme         aller à l'état 26
-    Func          aller à l'état 27
-    Bloc          aller à l'état 28
-    Print         aller à l'état 29
-    If            aller à l'état 30
-    While         aller à l'état 31
+    $défaut  réduction par utilisation de la règle 64 (Diff)
 
 
 État 123
 
-   44 Else: tELSE tOB $@6 Code tCB .
+   71 While: tWHILE tOP Cond tCP tOB $@8 . Code tCB
 
-    $défaut  réduction par utilisation de la règle 44 (Else)
+    tCONST   décalage et aller à l'état 8
+    tINT     décalage et aller à l'état 9
+    tOP      décalage et aller à l'état 10
+    tPRINT   décalage et aller à l'état 11
+    tIF      décalage et aller à l'état 12
+    tWHILE   décalage et aller à l'état 13
+    tINTVAL  décalage et aller à l'état 14
+    tID      décalage et aller à l'état 15
+
+    Code          aller à l'état 126
+    Declarations  aller à l'état 17
+    Declaration   aller à l'état 18
+    Instructions  aller à l'état 19
+    Instruction   aller à l'état 20
+    Calcul        aller à l'état 21
+    Expr          aller à l'état 22
+    Mul           aller à l'état 23
+    Add           aller à l'état 24
+    Sub           aller à l'état 25
+    Div           aller à l'état 26
+    Terme         aller à l'état 27
+    Func          aller à l'état 28
+    Bloc          aller à l'état 29
+    Print         aller à l'état 30
+    If            aller à l'état 31
+    While         aller à l'état 32
 
 
 État 124
 
-   42 If: tIF tOP Cond tCP tOB $@5 Code . tCB
+   45 Else: tELSE tOB $@7 Code tCB .
 
-    tCB  décalage et aller à l'état 126
+    $défaut  réduction par utilisation de la règle 45 (Else)
 
 
 État 125
 
-   70 While: tWHILE tOP Cond tCP tOB $@7 Code . tCB
+   43 If: tIF tOP Cond tCP tOB $@6 Code . tCB
 
     tCB  décalage et aller à l'état 127
 
 
 État 126
 
-   42 If: tIF tOP Cond tCP tOB $@5 Code tCB .
+   71 While: tWHILE tOP Cond tCP tOB $@8 Code . tCB
 
-    $défaut  réduction par utilisation de la règle 42 (If)
+    tCB  décalage et aller à l'état 128
 
 
 État 127
 
-   70 While: tWHILE tOP Cond tCP tOB $@7 Code tCB .
+   43 If: tIF tOP Cond tCP tOB $@6 Code tCB .
 
-    $défaut  réduction par utilisation de la règle 70 (While)
+    $défaut  réduction par utilisation de la règle 43 (If)
+
+
+État 128
+
+   71 While: tWHILE tOP Cond tCP tOB $@8 Code tCB .
+
+    $défaut  réduction par utilisation de la règle 71 (While)

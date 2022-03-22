@@ -1,6 +1,8 @@
 main()
 { 
     int a;
+    const b;
     printf(a);
+    printf(b);
    
 }
