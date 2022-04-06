@@ -66,13 +66,13 @@ void decDepth() {
     stack.depth--;
 }
 
-struct Symbol popSymbol(int depth){
+struct Symbol popSymbol(){
     if(isEmpty(stack)){
         printf("Stack is empty.\n");
         exit(EXIT_FAILURE);
     }else{
         for(int i=0;i<stack.top+1;i++){
-            if(stack.arraySymbols[stack.top].depth==depth){
+            if(stack.arraySymbols[stack.top].depth==stack.depth){
                 stack.top--;
             }
         }

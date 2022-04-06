@@ -8,6 +8,8 @@
 
 int type; //0 is const, 2 is temp et 1 is int
 int depth; 
+int ligne;
+int ligne2w;
 
 char* var[26];
 void yyerror(char *s);
@@ -59,16 +61,17 @@ Terme : tOP Expr tCP {}
 
 Func : Print tSEMI {printf("funcprintsemi\n");}
 Bloc:  If {printf("if\n");}
-      | If Else {printf("ifelse\n");}
-      | If ElseIf {printf("elseif\n");}
       | While {printf("while\n");};
 Print : tPRINT tOP tID tCP {compPrintID($3);};
-If : tIF tOP Cond tCP tOB {depth++;} Code tCB {printf("blocif\n");popSymbol(depth);depth--;};
-Else : tELSE tOB {depth++;} Code tCB {printf("blocelse\n");popSymbol(depth);depth--;};
 
-ElseIf : tELSE If {printf("contenublocifelse\n");}
-      |tELSE If ElseIf {printf("contenublocifelseMul\n");};
-      |tELSE If Else {printf("elseifelse\n");}
+If : tIF tOP Cond tCP tOB {incDepth(); ligne = compJMF(); } Code tCB {printf("blocif\n");popSymbol();decDepth();} Else {printf("regarde si on a un else\n");}
+      
+
+Else : {printf("cas ou on a juste if\n");int current=get_nb_lignes();patchJMF(ligne,current+1);} 
+      | tELSE {printf("cas ou on a un else\n");int current = get_nb_lignes();patchJMF(ligne,current+2);ligne=compJMP();} tOB { incDepth();} Code{int current=get_nb_lignes();printf("current %d \n",current);patchJMP(ligne,current+1);}  tCB {printf("blocelse\n");popSymbol();decDepth();};
+      | tELSE {int current=get_nb_lignes();patchJMF(ligne,current+1);} If {printf("caselsif\n");}
+      
+
 Cond : Inf {printf("condInf\n");} 
       | Sup {printf("condSup\n");}
       | Eq {printf("condEq\n");}
@@ -89,7 +92,7 @@ And : CondPart tAND CondPart {printf("and\n");};
 Or : CondPart tOR CondPart {printf("or\n");};
 Not : tNOT CondPart {printf("not\n");};
 CondPart : Expr {printf("condExpr\n");} | tOP Cond tCP {printf("condPart\n");};
-While : tWHILE tOP Cond tCP tOB {depth++;} Code tCB {printf("contenublocwhile\n");popSymbol(depth);depth--;};
+While : tWHILE tOP Cond tCP tOB {incDepth(); ligne = compJMF(); } Code tCB {printf("contenublocwhile\n");popSymbol();decDepth();int current=get_nb_lignes();patchJMF(ligne,current+2);ligne2w=compJMP();patchJMF(ligne2w,ligne);};
 %%
 void yyerror(char *s) { fprintf(stderr, "%s\n", s); }
 

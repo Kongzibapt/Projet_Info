@@ -12,3 +12,9 @@ void compDiv();
 void compInf();
 void compSup();
 void compEqu();
+
+int compJMF();
+int compJMP();
+int get_nb_lignes();
+void patchJMF(int from, int to);
+void patchJMP(int from, int to);

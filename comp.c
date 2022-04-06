@@ -125,8 +125,38 @@ void compEqu() {
       index_ins++;
 }
 
+int compJMF(){
+      int tmpAddress = findTemp();
+      ti[index_ins].op = "JMF";
+      ti[index_ins].a1 = tmpAddress;
+      return index_ins++;
+}
+
+int compJMP(){
+      int tmpAddress = findTemp();
+      ti[index_ins].op = "JMP";
+      
+      return index_ins++;
+} 
+
+//compte le nb de lignes dans ti (instructions au dessus du jump dans l'asm)
+int get_nb_lignes(){
+      return index_ins;
+} 
+
+//on place dans a1 la ligne où on doit jump
+void patchJMF(int from, int to){
+      ti[from].a2=to; 
+} 
+
+void patchJMP(int from, int to){
+      ti[from].a1=to; 
+} 
+
+
 void printTI() {
     for (int i = 0; i <  index_ins; i++) {
         printf("@%03x: %5s %3d %3d %3d\n", i, ti[i].op, ti[i].a1, ti[i].a2, ti[i].a3);
     }
 }
+

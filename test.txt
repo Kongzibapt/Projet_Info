@@ -1,15 +1,12 @@
 main() {
 	int a;
 	int b;
-	int c;
-    int d;
-    int m;
-    int s;
-	a = b;
-	b = 12;
-	c = a + (2-b);
-    if (a>b){
+	
+    while (a>b){
+		a=b;
+	}  
 
-    }
-	printf(a);
+
+
+	
 }

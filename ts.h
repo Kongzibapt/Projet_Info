@@ -15,7 +15,7 @@ int newIntTmp();
 
 int newInt(char *nom);
 
-struct Symbol popSymbol(int depth);
+struct Symbol popSymbol();
 
 struct Symbol findTop();
 
@@ -24,3 +24,7 @@ int findTemp();
 void print_stack();
 
 int find_symbol(char *name);
+
+void incDepth();
+
+void decDepth();
