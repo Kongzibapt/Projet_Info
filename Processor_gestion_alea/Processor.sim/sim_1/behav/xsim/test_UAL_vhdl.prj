@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../Processor.srcs/sources_1/new/UAL.vhd" \
+"../../../../Processor.srcs/sim_1/new/test_UAL.vhd" \
+
+# Do not sort compile order
+nosort

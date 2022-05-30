@@ -39,11 +39,13 @@ entity Chemin_donnees is
            Vout_QA : out STD_LOGIC_VECTOR (7 downto 0);
            Vout_QB : out STD_LOGIC_VECTOR (7 downto 0);
            Vout_don : out STD_LOGIC_VECTOR (7 downto 0);
-           RST : in STD_LOGIC; -- actif à 0
+           RST_uP : in STD_LOGIC; -- actif à 0
            CLK_in : in STD_LOGIC);
 end Chemin_donnees;
 
 architecture Behavioral of Chemin_donnees is
+
+
 
 COMPONENT Banc_Memoire_Instructions is
     Port ( addr : in STD_LOGIC_VECTOR (7 downto 0);
@@ -52,7 +54,7 @@ COMPONENT Banc_Memoire_Instructions is
 end COMPONENT;
 
 COMPONENT Banc_Memoire_Donnees
-    Port ( addr : in STD_LOGIC_VECTOR (7 downto 0);
+   Port ( addr : in STD_LOGIC_VECTOR (7 downto 0);
            Vin : in STD_LOGIC_VECTOR (7 downto 0);
            RW : in STD_LOGIC;
            RST : in STD_LOGIC;
@@ -103,7 +105,7 @@ signal Vout_aux_inst : STD_LOGIC_VECTOR (31 downto 0) := (others =>'0');
 
 signal addr_aux_don : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 signal Vin_aux_don : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
-signal RW_aux_don : STD_LOGIC :='0';
+signal RW_aux_don : STD_LOGIC;
 signal RST_aux_don : STD_LOGIC := '0';
 signal CLK_aux_don : STD_LOGIC := '0';
 signal Vout_aux_don : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
@@ -128,6 +130,8 @@ signal OP_DI_EX : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 signal B_DI_EX : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 signal C_DI_EX : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 
+
+
 signal A_EX_MEM : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 signal OP_EX_MEM : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 signal B_EX_MEM : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
@@ -138,7 +142,10 @@ signal B_MEM_RE : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 
 signal IP : STD_LOGIC_VECTOR (7 downto 0) := (others=>'0');
 
+
 begin
+
+
 
 Uut_inst : Banc_Memoire_Instructions PORT MAP (
     addr => IP,
@@ -148,9 +155,9 @@ Uut_inst : Banc_Memoire_Instructions PORT MAP (
 
 Uut_don : Banc_Memoire_Donnees PORT MAP (
     addr => addr_aux_don,
-    Vin => Vin_aux_don,
+    Vin => B_EX_MEM,
     RW => RW_aux_don,
-    RST => RST_aux_don,
+    RST => RST_uP,
     CLK => CLK_in,
     Vout => Vout_aux_don
 );
@@ -161,15 +168,15 @@ Uut_reg : Banc_Registre PORT MAP (
     addr_W => addr_W_aux_reg,
     W => W_aux_reg,
     DATA => DATA_aux_reg,
-    RST => RST_aux_reg,
+    RST => RST_uP,
     CLK => CLK_in,
     QA => QA_aux_reg,
     QB => QB_aux_reg
 );
 
 Uut_ual : UAL PORT MAP (
-    A => A_aux_ual,
-    B => B_aux_ual,
+    A => B_DI_EX,
+    B => C_DI_EX,
     N => N_aux_ual,
     O => O_aux_ual,
     Z => Z_aux_ual,
@@ -178,15 +185,31 @@ Uut_ual : UAL PORT MAP (
     Ctrl_Alu => Ctrl_Alu_aux_ual
 );
 
+
 process
 begin
     wait until rising_edge(CLK_in);
-    if RST = '0' then
+    if RST_uP= '0' then
         IP <= x"00";
     else
         IP <= IP + X"01";
     end if;
 end process;
+             --fils = asynchrone
+             addr_A_aux_reg <= B_LI_DI(3 downto 0);
+             addr_B_aux_reg <= C_LI_DI(3 downto 0);
+             Ctrl_Alu_aux_ual <= OP_DI_EX(1 downto 0);
+             addr_W_aux_reg <= A_MEM_RE (3 downto 0);
+             DATA_aux_reg <= B_MEM_RE;
+             W_aux_reg <= '1' when (OP_MEM_RE = X"06") or (OP_MEM_RE = X"05")  or (OP_MEM_RE = X"07") or (OP_MEM_RE = X"01") or  (OP_MEM_RE = X"02") or (OP_MEM_RE = X"03")  else '0';
+             RW_aux_don <= '0' when OP_EX_MEM = X"08" else '1';
+             addr_aux_don <= A_EX_MEM when OP_EX_MEM = X"08" else B_EX_MEM;
+             OP_DI_EX<=OP_LI_DI;
+             A_DI_EX <=  A_LI_DI;
+             B_DI_EX <= QA_aux_reg when (OP_LI_DI = X"05") or (OP_LI_DI = X"01") or  (OP_LI_DI = X"02") or (OP_LI_DI = X"03") or (OP_LI_DI = X"08") else B_LI_DI when (OP_LI_DI = X"06") or (OP_LI_DI = X"07");
+             
+             
+                      
 
 process
 
@@ -196,42 +219,59 @@ process
     
          C_LI_DI <= Vout_aux_inst(7 downto 0);
          B_LI_DI <= Vout_aux_inst(15 downto 8);
-         OP_LI_DI <= Vout_aux_inst(23 downto 16);
-         A_LI_DI <= Vout_aux_inst(31 downto 24); 
+         OP_LI_DI <= Vout_aux_inst(31 downto 24);
+         A_LI_DI <= Vout_aux_inst(23 downto 16); 
     
-         A_DI_EX <=  A_LI_DI;
-         OP_DI_EX <=  OP_LI_DI;
          
-         if OP_LI_DI = X"06" then
-            B_DI_EX <= B_LI_DI;
-         elsif OP_LI_DI = X"05" then
-            B_DI_EX <= QA_aux_reg;
-         end if;
          
-         addr_A_aux_reg <= B_LI_DI(3 downto 0);
+
+         
+         
+--         if (OP_LI_DI = X"06") or (OP_LI_DI = X"07") then
+--            B_DI_EX <= B_LI_DI; --car on écrit dans le registre
+--         elsif (OP_LI_DI = X"05") or (OP_LI_DI = X"01") or  (OP_LI_DI = X"02") or (OP_LI_DI = X"03") or (OP_LI_DI = X"08") then
+--            B_DI_EX <= QA_aux_reg;--car on doit lire un registre donc on sort QA
+            
+--         end if;
+         
          
          A_EX_MEM <=  A_DI_EX;
          OP_EX_MEM <=  OP_DI_EX;
-         B_EX_MEM <=  B_DI_EX;
+         
          
          A_MEM_RE <=  A_EX_MEM;
          OP_MEM_RE <=  OP_EX_MEM;
-         B_MEM_RE <=  B_EX_MEM;
-         
-         addr_W_aux_reg <= A_MEM_RE (3 downto 0);
-         DATA_aux_reg <= B_MEM_RE;
-         
-         if OP_MEM_RE = X"06" then
-            W_aux_reg <= '1';
-         else 
-            W_aux_reg <= '0';
-         end if;
+
          
          Vout_QA <= QA_aux_reg;
          Vout_QB <= QB_aux_reg;
-         Vout_don <= Vout_aux_don;
-    
+
+
+         C_DI_EX <= QB_aux_reg;
+         
+         
+         
+         
+
+         --MUX
+         if (OP_DI_EX = X"01") or  (OP_DI_EX = X"02") or (OP_DI_EX = X"03") then
+         -- si addition, multiplication ou soustraction alors on fait le calcul et propage le résultat
+             B_EX_MEM <= S_aux_ual;
+          else 
+          --sinon on propage l'entrée de ual 
+             B_EX_MEM <= B_DI_EX;
+          end if;
+
+        if OP_EX_MEM = X"07" then
+            B_MEM_RE <= Vout_aux_don;
+        else
+            B_MEM_RE <= B_EX_MEM;
+        end if;
+        
+
+
     end process;
+
 
 
 end Behavioral;

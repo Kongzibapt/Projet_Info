@@ -1,7 +1,7 @@
-Running: xsim.dir/test_chemin_donnees_behav/xsimk -simmode gui -wdb test_chemin_donnees_behav.wdb -simrunnum 0 -socket 39899
+Running: xsim.dir/test_chemin_donnees_behav/xsimk -simmode gui -wdb test_chemin_donnees_behav.wdb -simrunnum 0 -socket 47259
 Design successfully loaded
-Design Loading Memory Usage: 32708 KB (Peak: 32760 KB)
+Design Loading Memory Usage: 32720 KB (Peak: 32772 KB)
 Design Loading CPU Usage: 10 ms
 Simulation completed
-Simulation Memory Usage: 122644 KB (Peak: 179980 KB)
+Simulation Memory Usage: 122656 KB (Peak: 179992 KB)
 Simulation CPU Usage: 10 ms
